@@ -10,6 +10,11 @@ title: "Assignment 1"
 
 My first assignment has two parts.
 
-## (a)
+## (a)**Veri Bilimi ve Endüstri Mühendisliği Üzerine Sohbetler - Mustafa Baydoğan & Erdi Daşdemir**
 
 ## (b)
+
+```{r}
+data(mtcars)
+
+```
