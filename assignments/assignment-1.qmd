@@ -4,17 +4,17 @@ title: "Assignment 1"
 
 # Assignment 1
 
-```{r}
-1 + 1
-```
-
 My first assignment has two parts.
 
-## (a)**Veri Bilimi ve Endüstri Mühendisliği Üzerine Sohbetler - Mustafa Baydoğan & Erdi Daşdemir**
+```{r}
+install.packages("rmarkdown")
+1+1
+```
+
+## (a)
 
 ## (b)
 
-```{r}
-data(mtcars)
+library(dslabs)
 
-```
+data("mtcars")
