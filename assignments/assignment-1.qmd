@@ -6,14 +6,15 @@ title: "Assignment 1"
 
 My first assignment has two parts.
 
-```{r}
-install.packages("rmarkdown")
-1+1
-```
-
 ## (a)
 
 ## (b)
+
+```{r}
+library(dslabs)
+
+data("mtcars")
+```
 
 library(dslabs)
 

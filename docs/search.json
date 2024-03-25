@@ -109,7 +109,10 @@
     "href": "assignments/assignment-1.html",
     "title": "Assignment 1",
     "section": "",
-    "text": "My first assignment has two parts.\nr 1+1\n\n\n\n\n\nlibrary(dslabs)\ndata(“mtcars”)"
+    "text": "My first assignment has two parts.\n\n\n\n\n\n\nlibrary(dslabs)\n\ndata(\"mtcars\")\n\nlibrary(dslabs)\ndata(“mtcars”)",
+    "crumbs": [
+      "Assignment 1"
+    ]
   },
   {
     "objectID": "assignments/assignment-2.html",
@@ -140,6 +143,9 @@
     "href": "assignments/assignment-1.html#b",
     "title": "Assignment 1",
     "section": "",
-    "text": "library(dslabs)\ndata(“mtcars”)"
+    "text": "library(dslabs)\n\ndata(\"mtcars\")\n\nlibrary(dslabs)\ndata(“mtcars”)",
+    "crumbs": [
+      "Assignment 1"
+    ]
   }
 ]
