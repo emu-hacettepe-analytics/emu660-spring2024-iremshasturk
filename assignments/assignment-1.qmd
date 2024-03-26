@@ -6,16 +6,55 @@ title: "Assignment 1"
 
 My first assignment has two parts.
 
-## (a)
+## (a)Conservation on Data Science and Industrial Engineering with Mustafa Baydoğan
 
-## (b)
+## (b)Statistical Summaries
 
 ```{r}
 library(dslabs)
 
 data("mtcars")
+
+custom_summary <- function(x){
+mea <- mean(x)
+med <- median(x)
+std <- sd(x)
+mini <- min(x)
+maxi <- max(x)
+return(list(mea,med,std,mini,maxi))
+}
+
+cc <- c(5,3,4,9,2)
+result <- custom_summary(cc)
+print(result)
+
 ```
 
-library(dslabs)
+qq
 
-data("mtcars")
+```{r}
+sumcol <- apply(mtcars,2,custom_summary)
+print(sumcol)
+
+for (i in seq_along(sumcol)) {
+  cat("Summary for", names(sumcol)[i], ":\n")
+  print(sumcol[[i]])
+  cat("\n")
+}
+```
+
+## (c)na ex
+
+```{r}
+
+print(na_example)
+```
+
+```{r}
+sum(is.na(na_example))
+```
+
+```{r}
+convertedwith660 <- ifelse(is.na(na_example),660, na_example) 
+print(convertedwith660)
+```

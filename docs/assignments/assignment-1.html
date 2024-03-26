@@ -214,8 +214,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#assignment-1" id="toc-assignment-1" class="nav-link active" data-scroll-target="#assignment-1">Assignment 1</a>
   <ul class="collapse">
-  <li><a href="#a" id="toc-a" class="nav-link" data-scroll-target="#a">(a)</a></li>
-  <li><a href="#b" id="toc-b" class="nav-link" data-scroll-target="#b">(b)</a></li>
+  <li><a href="#aconservation-on-data-science-and-industrial-engineering-with-mustafa-baydoğan" id="toc-aconservation-on-data-science-and-industrial-engineering-with-mustafa-baydoğan" class="nav-link" data-scroll-target="#aconservation-on-data-science-and-industrial-engineering-with-mustafa-baydoğan">(a)Conservation on Data Science and Industrial Engineering with Mustafa Baydoğan</a></li>
+  <li><a href="#bstatistical-summaries" id="toc-bstatistical-summaries" class="nav-link" data-scroll-target="#bstatistical-summaries">(b)Statistical Summaries</a></li>
+  <li><a href="#cna-ex" id="toc-cna-ex" class="nav-link" data-scroll-target="#cna-ex">(c)na ex</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -249,18 +250,547 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="assignment-1" class="level1">
 <h1>Assignment 1</h1>
 <p>My first assignment has two parts.</p>
-<section id="a" class="level2">
-<h2 class="anchored" data-anchor-id="a">(a)</h2>
+<section id="aconservation-on-data-science-and-industrial-engineering-with-mustafa-baydoğan" class="level2">
+<h2 class="anchored" data-anchor-id="aconservation-on-data-science-and-industrial-engineering-with-mustafa-baydoğan">(a)Conservation on Data Science and Industrial Engineering with Mustafa Baydoğan</h2>
 </section>
-<section id="b" class="level2">
-<h2 class="anchored" data-anchor-id="b">(b)</h2>
+<section id="bstatistical-summaries" class="level2">
+<h2 class="anchored" data-anchor-id="bstatistical-summaries">(b)Statistical Summaries</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"mtcars"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"mtcars"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>custom_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>mea <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>med <span class="ot">&lt;-</span> <span class="fu">median</span>(x)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>std <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>mini <span class="ot">&lt;-</span> <span class="fu">min</span>(x)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>maxi <span class="ot">&lt;-</span> <span class="fu">max</span>(x)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(<span class="fu">list</span>(mea,med,std,mini,maxi))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>cc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">9</span>,<span class="dv">2</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">custom_summary</span>(cc)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 4.6
+
+[[2]]
+[1] 4
+
+[[3]]
+[1] 2.701851
+
+[[4]]
+[1] 2
+
+[[5]]
+[1] 9</code></pre>
 </div>
-<p>library(dslabs)</p>
-<p>data(“mtcars”)</p>
+</div>
+<p>qq</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sumcol <span class="ot">&lt;-</span> <span class="fu">apply</span>(mtcars,<span class="dv">2</span>,custom_summary)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sumcol)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$mpg
+$mpg[[1]]
+[1] 20.09062
+
+$mpg[[2]]
+[1] 19.2
+
+$mpg[[3]]
+[1] 6.026948
+
+$mpg[[4]]
+[1] 10.4
+
+$mpg[[5]]
+[1] 33.9
+
+
+$cyl
+$cyl[[1]]
+[1] 6.1875
+
+$cyl[[2]]
+[1] 6
+
+$cyl[[3]]
+[1] 1.785922
+
+$cyl[[4]]
+[1] 4
+
+$cyl[[5]]
+[1] 8
+
+
+$disp
+$disp[[1]]
+[1] 230.7219
+
+$disp[[2]]
+[1] 196.3
+
+$disp[[3]]
+[1] 123.9387
+
+$disp[[4]]
+[1] 71.1
+
+$disp[[5]]
+[1] 472
+
+
+$hp
+$hp[[1]]
+[1] 146.6875
+
+$hp[[2]]
+[1] 123
+
+$hp[[3]]
+[1] 68.56287
+
+$hp[[4]]
+[1] 52
+
+$hp[[5]]
+[1] 335
+
+
+$drat
+$drat[[1]]
+[1] 3.596563
+
+$drat[[2]]
+[1] 3.695
+
+$drat[[3]]
+[1] 0.5346787
+
+$drat[[4]]
+[1] 2.76
+
+$drat[[5]]
+[1] 4.93
+
+
+$wt
+$wt[[1]]
+[1] 3.21725
+
+$wt[[2]]
+[1] 3.325
+
+$wt[[3]]
+[1] 0.9784574
+
+$wt[[4]]
+[1] 1.513
+
+$wt[[5]]
+[1] 5.424
+
+
+$qsec
+$qsec[[1]]
+[1] 17.84875
+
+$qsec[[2]]
+[1] 17.71
+
+$qsec[[3]]
+[1] 1.786943
+
+$qsec[[4]]
+[1] 14.5
+
+$qsec[[5]]
+[1] 22.9
+
+
+$vs
+$vs[[1]]
+[1] 0.4375
+
+$vs[[2]]
+[1] 0
+
+$vs[[3]]
+[1] 0.5040161
+
+$vs[[4]]
+[1] 0
+
+$vs[[5]]
+[1] 1
+
+
+$am
+$am[[1]]
+[1] 0.40625
+
+$am[[2]]
+[1] 0
+
+$am[[3]]
+[1] 0.4989909
+
+$am[[4]]
+[1] 0
+
+$am[[5]]
+[1] 1
+
+
+$gear
+$gear[[1]]
+[1] 3.6875
+
+$gear[[2]]
+[1] 4
+
+$gear[[3]]
+[1] 0.7378041
+
+$gear[[4]]
+[1] 3
+
+$gear[[5]]
+[1] 5
+
+
+$carb
+$carb[[1]]
+[1] 2.8125
+
+$carb[[2]]
+[1] 2
+
+$carb[[3]]
+[1] 1.6152
+
+$carb[[4]]
+[1] 1
+
+$carb[[5]]
+[1] 8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(sumcol)) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Summary for"</span>, <span class="fu">names</span>(sumcol)[i], <span class="st">":</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(sumcol[[i]])</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Summary for mpg :
+[[1]]
+[1] 20.09062
+
+[[2]]
+[1] 19.2
+
+[[3]]
+[1] 6.026948
+
+[[4]]
+[1] 10.4
+
+[[5]]
+[1] 33.9
+
+
+Summary for cyl :
+[[1]]
+[1] 6.1875
+
+[[2]]
+[1] 6
+
+[[3]]
+[1] 1.785922
+
+[[4]]
+[1] 4
+
+[[5]]
+[1] 8
+
+
+Summary for disp :
+[[1]]
+[1] 230.7219
+
+[[2]]
+[1] 196.3
+
+[[3]]
+[1] 123.9387
+
+[[4]]
+[1] 71.1
+
+[[5]]
+[1] 472
+
+
+Summary for hp :
+[[1]]
+[1] 146.6875
+
+[[2]]
+[1] 123
+
+[[3]]
+[1] 68.56287
+
+[[4]]
+[1] 52
+
+[[5]]
+[1] 335
+
+
+Summary for drat :
+[[1]]
+[1] 3.596563
+
+[[2]]
+[1] 3.695
+
+[[3]]
+[1] 0.5346787
+
+[[4]]
+[1] 2.76
+
+[[5]]
+[1] 4.93
+
+
+Summary for wt :
+[[1]]
+[1] 3.21725
+
+[[2]]
+[1] 3.325
+
+[[3]]
+[1] 0.9784574
+
+[[4]]
+[1] 1.513
+
+[[5]]
+[1] 5.424
+
+
+Summary for qsec :
+[[1]]
+[1] 17.84875
+
+[[2]]
+[1] 17.71
+
+[[3]]
+[1] 1.786943
+
+[[4]]
+[1] 14.5
+
+[[5]]
+[1] 22.9
+
+
+Summary for vs :
+[[1]]
+[1] 0.4375
+
+[[2]]
+[1] 0
+
+[[3]]
+[1] 0.5040161
+
+[[4]]
+[1] 0
+
+[[5]]
+[1] 1
+
+
+Summary for am :
+[[1]]
+[1] 0.40625
+
+[[2]]
+[1] 0
+
+[[3]]
+[1] 0.4989909
+
+[[4]]
+[1] 0
+
+[[5]]
+[1] 1
+
+
+Summary for gear :
+[[1]]
+[1] 3.6875
+
+[[2]]
+[1] 4
+
+[[3]]
+[1] 0.7378041
+
+[[4]]
+[1] 3
+
+[[5]]
+[1] 5
+
+
+Summary for carb :
+[[1]]
+[1] 2.8125
+
+[[2]]
+[1] 2
+
+[[3]]
+[1] 1.6152
+
+[[4]]
+[1] 1
+
+[[5]]
+[1] 8</code></pre>
+</div>
+</div>
+</section>
+<section id="cna-ex" class="level2">
+<h2 class="anchored" data-anchor-id="cna-ex">(c)na ex</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(na_example)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   [1]  2  1  3  2  1  3  1  4  3  2  2 NA  2  2  1  4 NA  1  1  2  1  2  2  1
+  [25]  2  5 NA  2  2  3  1  2  4  1  1  1  4  5  2  3  4  1  2  4  1  1  2  1
+  [49]  5 NA NA NA  1  1  5  1  3  1 NA  4  4  7  3  2 NA NA  1 NA  4  1  2  2
+  [73]  3  2  1  2  2  4  3  4  2  3  1  3  2  1  1  1  3  1 NA  3  1  2  2  1
+  [97]  2  2  1  1  4  1  1  2  3  3  2  2  3  3  3  4  1  1  1  2 NA  4  3  4
+ [121]  3  1  2  1 NA NA NA NA  1  5  1  2  1  3  5  3  2  2 NA NA NA NA  3  5
+ [145]  3  1  1  4  2  4  3  3 NA  2  3  2  6 NA  1  1  2  2  1  3  1  1  5 NA
+ [169] NA  2  4 NA  2  5  1  4  3  3 NA  4  3  1  4  1  1  3  1  1 NA NA  3  5
+ [193]  2  2  2  3  1  2  2  3  2  1 NA  2 NA  1 NA NA  2  1  1 NA  3 NA  1  2
+ [217]  2  1  3  2  2  1  1  2  3  1  1  1  4  3  4  2  2  1  4  1 NA  5  1  4
+ [241] NA  3 NA NA  1  1  5  2  3  3  2  4 NA  3  2  5 NA  2  3  4  6  2  2  2
+ [265] NA  2 NA  2 NA  3  3  2  2  4  3  1  4  2 NA  2  4 NA  6  2  3  1 NA  2
+ [289]  2 NA  1  1  3  2  3  3  1 NA  1  4  2  1  1  3  2  1  2  3  1 NA  2  3
+ [313]  3  2  1  2  3  5  5  1  2  3  3  1 NA NA  1  2  4 NA  2  1  1  1  3  2
+ [337]  1  1  3  4 NA  1  2  1  1  3  3 NA  1  1  3  5  3  2  3  4  1  4  3  1
+ [361] NA  2  1  2  2  1  2  2  6  1  2  4  5 NA  3  4  2  1  1  4  2  1  1  1
+ [385]  1  2  1  4  4  1  3 NA  3  3 NA  2 NA  1  2  1  1  4  2  1  4  4 NA  1
+ [409]  2 NA  3  2  2  2  1  4  3  6  1  2  3  1  3  2  2  2  1  1  3  2  1  1
+ [433]  1  3  2  2 NA  4  4  4  1  1 NA  4  3 NA  1  3  1  3  2  4  2  2  2  3
+ [457]  2  1  4  3 NA  1  4  3  1  3  2 NA  3 NA  1  3  1  4  1  1  1  2  4  3
+ [481]  1  2  2  2  3  2  3  1  1 NA  3  2  1  1  2 NA  2  2  2  3  3  1  1  2
+ [505] NA  1  2  1  1  3  3  1  3  1  1  1  1  1  2  5  1  1  2  2  1  1 NA  1
+ [529]  4  1  2  4  1  3  2 NA  1  1 NA  2  1  1  4  2  3  3  1  5  3  1  1  2
+ [553] NA  1  1  3  1  3  2  4 NA  2  3  2  1  2  1  1  1  2  2  3  1  5  2 NA
+ [577]  2 NA  3  2  2  2  1  5  3  2  3  1 NA  3  1  2  2  2  1  2  2  4 NA  6
+ [601]  1  2 NA  1  1  2  2  3 NA  3  2  3  3  4  2 NA  2 NA  4 NA  1  1  2  2
+ [625]  3  1  1  1  3 NA  2  5 NA  7  1 NA  4  3  3  1 NA  1  1  1  1  3  2  4
+ [649]  2  2  3 NA NA  1  4  3  2  2  2  3  2  4  2  2  4 NA NA NA  6  3  3  1
+ [673]  4  4  2  1 NA  1  6 NA  3  3  2  1  1  6 NA  1  5  1 NA  2  6  2 NA  4
+ [697]  1  3  1  2 NA  1  1  3  1  2  4  2  1  3  2  4  3  2  2  1  1  5  6  4
+ [721]  2  2  2  2  4 NA  1  2  2  2  2  4  5 NA NA NA  4  3  3  3  2  4  2  4
+ [745] NA NA NA NA  2  1 NA  2  4  3  2 NA  2  3  1  3  4 NA  1  2  1  2 NA  3
+ [769]  1  2  1  2  1  2  1  2  2  2  2  1  1  3  3  1  3  4  3 NA NA  4  2  3
+ [793]  2  1  3  2  4  2  2  3  1  2  4  3  3  4 NA  1  4  2  1  1  1  3  1  5
+ [817]  2  2  4  2 NA  1  3  1  2 NA  1  2  1  2  1 NA  1  3  2  3  2 NA  2  1
+ [841]  4  2 NA NA NA  2  4  2 NA NA  3  1 NA  5  5  2  2  2 NA  2  1  3  1  3
+ [865]  2  4  2  4 NA  4  1  2  3  2  3  3  2  3  2  2  2  1  3  2  4  2 NA  3
+ [889]  3  2  2 NA NA  3  2  1  2  4  1  1  1  1  4  3  2 NA  3  2 NA  1 NA  3
+ [913]  2  1  1  1  2 NA  2  2  3  3  2 NA NA  4  5  2  2  2  1  2  3  1  3  3
+ [937]  4  3 NA  1  1  1 NA  4  3  5  1  1  2 NA  2  2  2  2  5  2  2  3  1  2
+ [961]  3 NA  1  2 NA NA  2 NA  3  1  1  2  5  3  5  1  1  4 NA  2  1  3  1  1
+ [985]  2  4  3  3  3 NA  1  1  2  2  1  1  2  2 NA  2</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(na_example))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 145</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>convertedwith660 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(na_example),<span class="dv">660</span>, na_example) </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(convertedwith660)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   [1]   2   1   3   2   1   3   1   4   3   2   2 660   2   2   1   4 660   1
+  [19]   1   2   1   2   2   1   2   5 660   2   2   3   1   2   4   1   1   1
+  [37]   4   5   2   3   4   1   2   4   1   1   2   1   5 660 660 660   1   1
+  [55]   5   1   3   1 660   4   4   7   3   2 660 660   1 660   4   1   2   2
+  [73]   3   2   1   2   2   4   3   4   2   3   1   3   2   1   1   1   3   1
+  [91] 660   3   1   2   2   1   2   2   1   1   4   1   1   2   3   3   2   2
+ [109]   3   3   3   4   1   1   1   2 660   4   3   4   3   1   2   1 660 660
+ [127] 660 660   1   5   1   2   1   3   5   3   2   2 660 660 660 660   3   5
+ [145]   3   1   1   4   2   4   3   3 660   2   3   2   6 660   1   1   2   2
+ [163]   1   3   1   1   5 660 660   2   4 660   2   5   1   4   3   3 660   4
+ [181]   3   1   4   1   1   3   1   1 660 660   3   5   2   2   2   3   1   2
+ [199]   2   3   2   1 660   2 660   1 660 660   2   1   1 660   3 660   1   2
+ [217]   2   1   3   2   2   1   1   2   3   1   1   1   4   3   4   2   2   1
+ [235]   4   1 660   5   1   4 660   3 660 660   1   1   5   2   3   3   2   4
+ [253] 660   3   2   5 660   2   3   4   6   2   2   2 660   2 660   2 660   3
+ [271]   3   2   2   4   3   1   4   2 660   2   4 660   6   2   3   1 660   2
+ [289]   2 660   1   1   3   2   3   3   1 660   1   4   2   1   1   3   2   1
+ [307]   2   3   1 660   2   3   3   2   1   2   3   5   5   1   2   3   3   1
+ [325] 660 660   1   2   4 660   2   1   1   1   3   2   1   1   3   4 660   1
+ [343]   2   1   1   3   3 660   1   1   3   5   3   2   3   4   1   4   3   1
+ [361] 660   2   1   2   2   1   2   2   6   1   2   4   5 660   3   4   2   1
+ [379]   1   4   2   1   1   1   1   2   1   4   4   1   3 660   3   3 660   2
+ [397] 660   1   2   1   1   4   2   1   4   4 660   1   2 660   3   2   2   2
+ [415]   1   4   3   6   1   2   3   1   3   2   2   2   1   1   3   2   1   1
+ [433]   1   3   2   2 660   4   4   4   1   1 660   4   3 660   1   3   1   3
+ [451]   2   4   2   2   2   3   2   1   4   3 660   1   4   3   1   3   2 660
+ [469]   3 660   1   3   1   4   1   1   1   2   4   3   1   2   2   2   3   2
+ [487]   3   1   1 660   3   2   1   1   2 660   2   2   2   3   3   1   1   2
+ [505] 660   1   2   1   1   3   3   1   3   1   1   1   1   1   2   5   1   1
+ [523]   2   2   1   1 660   1   4   1   2   4   1   3   2 660   1   1 660   2
+ [541]   1   1   4   2   3   3   1   5   3   1   1   2 660   1   1   3   1   3
+ [559]   2   4 660   2   3   2   1   2   1   1   1   2   2   3   1   5   2 660
+ [577]   2 660   3   2   2   2   1   5   3   2   3   1 660   3   1   2   2   2
+ [595]   1   2   2   4 660   6   1   2 660   1   1   2   2   3 660   3   2   3
+ [613]   3   4   2 660   2 660   4 660   1   1   2   2   3   1   1   1   3 660
+ [631]   2   5 660   7   1 660   4   3   3   1 660   1   1   1   1   3   2   4
+ [649]   2   2   3 660 660   1   4   3   2   2   2   3   2   4   2   2   4 660
+ [667] 660 660   6   3   3   1   4   4   2   1 660   1   6 660   3   3   2   1
+ [685]   1   6 660   1   5   1 660   2   6   2 660   4   1   3   1   2 660   1
+ [703]   1   3   1   2   4   2   1   3   2   4   3   2   2   1   1   5   6   4
+ [721]   2   2   2   2   4 660   1   2   2   2   2   4   5 660 660 660   4   3
+ [739]   3   3   2   4   2   4 660 660 660 660   2   1 660   2   4   3   2 660
+ [757]   2   3   1   3   4 660   1   2   1   2 660   3   1   2   1   2   1   2
+ [775]   1   2   2   2   2   1   1   3   3   1   3   4   3 660 660   4   2   3
+ [793]   2   1   3   2   4   2   2   3   1   2   4   3   3   4 660   1   4   2
+ [811]   1   1   1   3   1   5   2   2   4   2 660   1   3   1   2 660   1   2
+ [829]   1   2   1 660   1   3   2   3   2 660   2   1   4   2 660 660 660   2
+ [847]   4   2 660 660   3   1 660   5   5   2   2   2 660   2   1   3   1   3
+ [865]   2   4   2   4 660   4   1   2   3   2   3   3   2   3   2   2   2   1
+ [883]   3   2   4   2 660   3   3   2   2 660 660   3   2   1   2   4   1   1
+ [901]   1   1   4   3   2 660   3   2 660   1 660   3   2   1   1   1   2 660
+ [919]   2   2   3   3   2 660 660   4   5   2   2   2   1   2   3   1   3   3
+ [937]   4   3 660   1   1   1 660   4   3   5   1   1   2 660   2   2   2   2
+ [955]   5   2   2   3   1   2   3 660   1   2 660 660   2 660   3   1   1   2
+ [973]   5   3   5   1   1   4 660   2   1   3   1   1   2   4   3   3   3 660
+ [991]   1   1   2   2   1   1   2   2 660   2</code></pre>
+</div>
+</div>
 
 
 </section>
