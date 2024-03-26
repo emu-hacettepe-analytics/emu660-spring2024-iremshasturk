@@ -8,6 +8,8 @@ My first assignment has two parts.
 
 ## (a)Conservation on Data Science and Industrial Engineering with Mustafa Baydoğan
 
+In the conversation on Data Science and Industrial Engineering, Mustafa Baydoğan gave information about the problems he works on and his perspective on them. Firstly, he talked about the stages in the decision-making process about a problem with real-life examples. One example was the steps taken to estimate timber curvature. In this process, first of all, the problem was clearly defined and research was conducted on its causes. Afterwards, the estimation method was decided and applied. Afterwards, he talked about two new topics. The first one is "Physics-informed machine learning". It is a study aimed at modeling the physical movement of a spring. The other one is "Machine learning for optimization". For this topic, studies were conducted to see whether machine learning helps optimization. At the end of the speech, students' questions were answered.
+
 ## (b)Statistical Summaries
 
 ```{r}
@@ -51,10 +53,22 @@ print(na_example)
 ```
 
 ```{r}
-sum(is.na(na_example))
+count_na <- sum(is.na(na_example))
+print(paste("#of NA values:", count_na))
 ```
 
 ```{r}
 convertedwith660 <- ifelse(is.na(na_example),660, na_example) 
 print(convertedwith660)
+```
+
+```{r}
+new_count_na <- sum(is.na(convertedwith660))
+print(paste("# of NA values in updated data:", new_count_na))
+
+```
+
+```{r}
+count_660 <- sum(convertedwith660 == 660)
+print(paste("# of 660 values replaced by na:", count_660))
 ```
