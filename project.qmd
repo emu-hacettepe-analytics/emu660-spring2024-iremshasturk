@@ -10,15 +10,24 @@ Keep an eye on this space to stay updated with my project activities.
 
 # 1. Project Overview and Scope
 
-xxxxxx
+Yenilenebilir enerji üretiminin arz-talep dengesi üzerindeki etkisinin incelenmesi.
 
 # 2. Data
 
-xxxxxx
+2015 ve 2020 yıllarına ait gerçek zamanlı üretim verileri.
+
+```{r}
+#install.packages("readxl")
+library(readxl)
+veri <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Gercek_Zamanli_Uretim_2020.xlsx")
+head(veri)
+```
+
+{r}
 
 ## 2.1 Data Source
 
-xxxxxx
+EPİAŞ Şeffaflık Platformundan alınmıştır.
 
 ## 2.2 General Information About Data
 
