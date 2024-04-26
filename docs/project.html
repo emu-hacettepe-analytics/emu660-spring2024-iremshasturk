@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>İrem Sultan Hastürk’s Analytics Lab - Project X</title>
+<title>İrem Sultan Hastürk’s Analytics Lab - The impact of renewable energy production on supply-demand balance and carbon emissions in Turkey</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -181,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">3. Analysis</a>
   <ul class="collapse">
   <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">3.1 Exploratory Data Analysis</a></li>
-  <li><a href="#trend-analysis" id="toc-trend-analysis" class="nav-link" data-scroll-target="#trend-analysis">3.2 Trend Analysis</a></li>
+  <li><a href="#trndefinedend-analysis" id="toc-trndefinedend-analysis" class="nav-link" data-scroll-target="#trndefinedend-analysis">3.2 Trndefinedend Analysis</a></li>
   <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">3.3 Model Fitting</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">3.4 Results</a></li>
   </ul></li>
@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project X</h1>
+<h1 class="title">The impact of renewable energy production on supply-demand balance and carbon emissions in Turkey</h1>
 </div>
 
 
@@ -217,19 +217,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Welcome to my project page.</p>
 <p>Keep an eye on this space to stay updated with my project activities.</p>
-<p>(The titles below are provided as examples; please feel free to adjust them as necessary.)</p>
 <section id="project-overview-and-scope" class="level1">
 <h1>1. Project Overview and Scope</h1>
-<p>Yenilenebilir enerji üretiminin arz-talep dengesi üzerindeki etkisinin incelenmesi.</p>
+<p>The share of renewable energy production in the total energy supplied and demanded in Turkey changes every year. In this project, first the supply-demand relationship and the effect of renewable energy on this will be examined, and then the effect of renewable energy on carbon emissions will be examined.</p>
 </section>
 <section id="data" class="level1">
 <h1>2. Data</h1>
-<p>2015 ve 2020 yıllarına ait gerçek zamanlı üretim verileri.</p>
+<p>Data required for investigations in the project:</p>
+<p>Real-time production data in Turkey between 2015-2020</p>
+<p><a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation">Real-time production data in Turkey between 2015-2020</a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("readxl")</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>veri <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Gercek_Zamanli_Uretim_2020.xlsx"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(veri)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>uretim_2020 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Gercek_Zamanli_Uretim_2020.xlsx"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>uretim_2015 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Gercek_Zamanli_Uretim_2015.xlsx"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(uretim_2020)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 19
   Tarih               Saat  Toplam `Doğal Gaz` Barajlı Linyit Akarsu
@@ -245,11 +247,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #   `Taş Kömür` &lt;dbl&gt;, Biyokütle &lt;dbl&gt;, Nafta &lt;dbl&gt;, LNG &lt;dbl&gt;,
 #   Uluslararası &lt;dbl&gt;, `Atık Isı` &lt;dbl&gt;</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(uretim_2015)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 19
+  Tarih               Saat  Toplam `Doğal Gaz` Barajlı Linyit Akarsu
+  &lt;dttm&gt;              &lt;chr&gt;  &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 2015-01-01 00:00:00 00:00 23273.       9118.    763.  3923.  1435.
+2 2015-01-01 01:00:00 01:00 22083.       8567.    774.  3941.  1356.
+3 2015-01-01 02:00:00 02:00 20643.       7685.    586.  3896.  1223.
+4 2015-01-01 03:00:00 03:00 19845.       7411.    372.  3885.  1125.
+5 2015-01-01 04:00:00 04:00 19396.       7233.    291.  3892.  1062.
+6 2015-01-01 05:00:00 05:00 19123.       7161.    532.  3809.  1048.
+# ℹ 12 more variables: `İthal Kömür` &lt;dbl&gt;, Rüzgar &lt;dbl&gt;, Güneş &lt;dbl&gt;,
+#   `Fuel Oil` &lt;dbl&gt;, Jeotermal &lt;dbl&gt;, `Asfaltit Kömür` &lt;dbl&gt;,
+#   `Taş Kömür` &lt;dbl&gt;, Biyokütle &lt;dbl&gt;, Nafta &lt;dbl&gt;, LNG &lt;dbl&gt;,
+#   Uluslararası &lt;dbl&gt;, `Atık Isı` &lt;dbl&gt;</code></pre>
+</div>
 </div>
 <p>{r}</p>
 <section id="data-source" class="level2">
 <h2 class="anchored" data-anchor-id="data-source">2.1 Data Source</h2>
-<p>EPİAŞ Şeffaflık Platformundan alınmıştır.</p>
+<p>Data is obtained from EPİAŞ Transparency Platform.</p>
 </section>
 <section id="general-information-about-data" class="level2">
 <h2 class="anchored" data-anchor-id="general-information-about-data">2.2 General Information About Data</h2>
@@ -269,10 +287,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>xxxxxx</p>
 <section id="exploratory-data-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="exploratory-data-analysis">3.1 Exploratory Data Analysis</h2>
-<p>xxxxxx</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#total_dogalgaz &lt;- sum(uretim_2015$Doğal gaz)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="trend-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="trend-analysis">3.2 Trend Analysis</h2>
+<section id="trndefinedend-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="trndefinedend-analysis">3.2 Trndefinedend Analysis</h2>
 <p>xxxxxx</p>
 </section>
 <section id="model-fitting" class="level2">
