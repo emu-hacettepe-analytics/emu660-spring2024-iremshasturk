@@ -63,21 +63,22 @@ combined_data$Year <- factor(rep(c("2015", "2020"), each = nrow(prod_monthly_201
 ggplot(combined_data) +
   geom_line(aes(x = Date, y = Total, color = Year, group=Year))
 
+```
+
+In the graph above, it can be seen that the energy production in 2020 is mostly higher than in 2015.
+
+```{r}
 ggplot(combined_data) +
   geom_line(aes(x = Date, y = Solar, color = Year, group=Year))
 ```
 
-{r} #install.packages("readxl") library(readxl) prod_2015 \<- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-2015.xlsx") head(prod_2015)
+The graph above shows that no solar energy was produced in 2015.
 
 # 3. Analysis
 
 xxxxxx
 
 ## 3.1 Exploratory Data Analysis
-
-```{r}
-#total_dogalgaz <- sum(uretim_2015$Doğal gaz)
-```
 
 ## 3.2 Trndefinedend Analysis
 
