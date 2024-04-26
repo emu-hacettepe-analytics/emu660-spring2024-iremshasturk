@@ -1,33 +1,38 @@
 ---
-title: "Project X"
+title: "The impact of renewable energy production on supply-demand balance and carbon emissions in Turkey"
 ---
 
 Welcome to my project page.
 
 Keep an eye on this space to stay updated with my project activities.
 
-(The titles below are provided as examples; please feel free to adjust them as necessary.)
-
 # 1. Project Overview and Scope
 
-Yenilenebilir enerji üretiminin arz-talep dengesi üzerindeki etkisinin incelenmesi.
+The share of renewable energy production in the total energy supplied and demanded in Turkey changes every year. In this project, first the supply-demand relationship and the effect of renewable energy on this will be examined, and then the effect of renewable energy on carbon emissions will be examined.
 
 # 2. Data
 
-2015 ve 2020 yıllarına ait gerçek zamanlı üretim verileri.
+Data required for investigations in the project:
+
+Real-time production data in Turkey between 2015-2020
+
+<a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation">Real-time production data in Turkey between 2015-2020</a>
 
 ```{r}
 #install.packages("readxl")
 library(readxl)
-veri <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Gercek_Zamanli_Uretim_2020.xlsx")
-head(veri)
+uretim_2020 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Gercek_Zamanli_Uretim_2020.xlsx")
+uretim_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Gercek_Zamanli_Uretim_2015.xlsx")
+head(uretim_2020)
+head(uretim_2015)
+
 ```
 
 {r}
 
 ## 2.1 Data Source
 
-EPİAŞ Şeffaflık Platformundan alınmıştır.
+Data is obtained from EPİAŞ Transparency Platform.
 
 ## 2.2 General Information About Data
 
@@ -47,9 +52,11 @@ xxxxxx
 
 ## 3.1 Exploratory Data Analysis
 
-xxxxxx
+```{r}
+#total_dogalgaz <- sum(uretim_2015$Doğal gaz)
+```
 
-## 3.2 Trend Analysis
+## 3.2 Trndefinedend Analysis
 
 xxxxxx
 
