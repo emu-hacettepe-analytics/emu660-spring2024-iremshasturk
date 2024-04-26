@@ -14,17 +14,13 @@ The share of renewable energy production in the total energy supplied and demand
 
 Data required for investigations in the project:
 
-Real-time production data in Turkey between 2015-2020
-
 <a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation">Real-time production data in Turkey between 2015-2020</a>
 
 ```{r}
 #install.packages("readxl")
 library(readxl)
-uretim_2020 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Gercek_Zamanli_Uretim_2020.xlsx")
-uretim_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Gercek_Zamanli_Uretim_2015.xlsx")
-head(uretim_2020)
-head(uretim_2015)
+prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-2015.xlsx")
+head(prod_2015)
 
 ```
 
@@ -33,6 +29,8 @@ head(uretim_2015)
 ## 2.1 Data Source
 
 Data is obtained from EPİAŞ Transparency Platform.
+
+<a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation">Real-time production data in Turkey between 2015-2020</a>
 
 ## 2.2 General Information About Data
 
@@ -44,7 +42,32 @@ xxxxxx
 
 ## 2.4 Preprocessing
 
-xxxxxx
+Due to data complexity, hourly data converted to monthly data. Thus, it has become easier to examine. Data obtained for 2015 after preprocessing:
+
+```{r}
+
+prod_monthly_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2015.xlsx")
+prod_monthly_2020 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2020.xlsx")
+head(prod_monthly_2015)
+head(prod_monthly_2020)
+
+chooseCRANmirror(ind=1)
+install.packages("ggplot2") 
+library(ggplot2)
+
+
+combined_data <- rbind(prod_monthly_2015, prod_monthly_2020)
+combined_data$Year <- factor(rep(c("2015", "2020"), each = nrow(prod_monthly_2015)))
+
+
+ggplot(combined_data) +
+  geom_line(aes(x = Date, y = Total, color = Year, group=Year))
+
+ggplot(combined_data) +
+  geom_line(aes(x = Date, y = Solar, color = Year, group=Year))
+```
+
+{r} #install.packages("readxl") library(readxl) prod_2015 \<- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-2015.xlsx") head(prod_2015)
 
 # 3. Analysis
 
