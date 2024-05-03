@@ -320,27 +320,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #   `Asphaltite Coal` &lt;dbl&gt;, `Black Coal` &lt;dbl&gt;, Biomass &lt;dbl&gt;, Naphta &lt;dbl&gt;,
 #   LNG &lt;dbl&gt;, `Import-Export` &lt;dbl&gt;, `Waste Heat` &lt;dbl&gt;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chooseCRANmirror</span>(<span class="at">ind=</span><span class="dv">1</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chooseCRANmirror</span>(<span class="at">ind=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in download.file(url, destfile = f, quiet = TRUE): URL
+'https://cran.r-project.org/CRAN_mirrors.csv': status was 'Couldn't resolve
+host name'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: failed to download mirrors file (URL
+'https://cran.r-project.org/CRAN_mirrors.csv' açılamıyor); using local file
+'C:/PROGRA~1/R/R-43~1.3/doc/CRAN_mirrors.csv'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Installing package into 'C:/Users/irems/AppData/Local/R/win-library/4.3'
 (as 'lib' is unspecified)</code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>package 'ggplot2' successfully unpacked and MD5 sums checked
-
-The downloaded binary packages are in
-    C:\Users\irems\AppData\Local\Temp\RtmpM9HHEh\downloaded_packages</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in download.file(url, destfile, method, mode = "wb", ...): downloaded
+length 0 != reported length 0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>combined_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(prod_monthly_2015, prod_monthly_2020)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>combined_data<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"2015"</span>, <span class="st">"2020"</span>), <span class="at">each =</span> <span class="fu">nrow</span>(prod_monthly_2015)))</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data) <span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Total, <span class="at">color =</span> Year, <span class="at">group=</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in download.file(url, destfile, method, mode = "wb", ...): URL
+'https://cloud.r-project.org/bin/windows/contrib/4.3/ggplot2_3.5.1.zip':
+Timeout of 60 seconds was reached</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error in download.file(url, destfile, method, mode = "wb", ...) : 
+  download from 'https://cloud.r-project.org/bin/windows/contrib/4.3/ggplot2_3.5.1.zip' failed</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in download.packages(pkgs, destdir = tmpd, available = available, :
+download of package 'ggplot2' failed</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>combined_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(prod_monthly_2015, prod_monthly_2020)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>combined_data<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"2015"</span>, <span class="st">"2020"</span>), <span class="at">each =</span> <span class="fu">nrow</span>(prod_monthly_2015)))</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Total, <span class="at">color =</span> Year, <span class="at">group=</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -351,8 +372,8 @@ The downloaded binary packages are in
 </div>
 <p>In the graph above, it can be seen that the energy production in 2020 is mostly higher than in 2015.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data) <span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Solar, <span class="at">color =</span> Year, <span class="at">group=</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Solar, <span class="at">color =</span> Year, <span class="at">group=</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
