@@ -4,41 +4,53 @@ title: "The impact of renewable energy production on supply-demand balance and c
 
 Welcome to my project page.
 
-Keep an eye on this space to stay updated with my project activities.
+The share of renewable energy production in the total energy supplied and demanded in Turkey changes every year. In this project, first the supply-demand relationship and the effect of renewable energy on this will be examined, and then the effect of renewable energy on carbon emissions will be examined.
 
 # 1. Project Overview and Scope
 
-The share of renewable energy production in the total energy supplied and demanded in Turkey changes every year. In this project, first the supply-demand relationship and the effect of renewable energy on this will be examined, and then the effect of renewable energy on carbon emissions will be examined.
+In today's world, energy is perceived as the cornerstone of economic development, and it needs to be sustainably provided while considering its environmental impacts. In this context, renewable energy sources have the potential to minimize environmental effects by reducing dependency on fossil fuels. For countries like Turkey, with rapidly increasing energy demands and a strategic geographical location, the impact of renewable energy production on supply-demand balance and its effect on carbon emissions are of vital importance.
+
+This project aims to examine the current status of renewable energy production in Turkey, evaluate its effects on supply-demand balance, and analyze its impact on carbon emissions. In this regard, the project plans to examine and analyze data such as the amount of energy derived from renewable energy sources in Turkey, trends in energy consumption increase, carbon emissions, and the status of renewable energy investments.
 
 # 2. Data
 
-Data required for investigations in the project:
+This project will utilize various data sources to assess the impact of renewable energy production on the supply-demand balance and carbon emissions in Turkey. In this regard, the following types of data and sources will be used:
 
-<a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation">Real-time production data in Turkey between 2015-2020</a>
+1.  **Renewable Energy Production Data**: Official statistics and reports regarding the amount and distribution of energy generated from solar, wind, hydroelectric, and other renewable energy sources in Turkey will be examined.
+
+2.  **Trends in Energy Consumption**: Data published by national energy agencies and relevant organizations will be utilized to determine trends in energy consumption in Turkey.
+
+3.  **Carbon Emissions Data**: Data on Turkey's carbon emissions will be collected from sources such as greenhouse gas inventories and international reports, and will be analyzed.
+
+4.  **Status of Renewable Energy Investments**: The status and trends of investments in the renewable energy sector in Turkey will be examined through financial reports of energy companies and sectoral analyses.
+
+## 2.1 Data Source
+
+Renewable Energy Production and Trends in Energy Consumption data is obtained from <a href="https://seffaflik.epias.com.tr/home">EPİAŞ Transparency Platform</a> .
+
+Greenhouse Gas Emissions Statistics from 2015 to 2021 is obtained from <a href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&dil=2">Turkish Statistical Institute</a> .
+
+## 2.2 General Information About Data
+
+<a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation">**Real-Time Generation**</a> .: The display of hourly generation values of electricity generation plants on a resource basis.
+
+For example, 2015 real-time hourly energy production data is as follows:
 
 ```{r}
 #install.packages("readxl")
 library(readxl)
 prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-2015.xlsx")
 head(prod_2015)
-
 ```
 
-{r}
-
-## 2.1 Data Source
-
-Data is obtained from EPİAŞ Transparency Platform.
-
-<a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation">Real-time production data in Turkey between 2015-2020</a>
-
-## 2.2 General Information About Data
-
-xxxxxx
+```{r}
+ghg_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\ghg.xlsx")
+head(ghg_emissions)
+```
 
 ## 2.3 Reason of Choice
 
-xxxxxx
+The reasons for choosing this topic include the strategic importance of Turkey's energy supply-demand balance and environmental sustainability, the potential of renewable energy sources to reduce environmental impacts, the necessity to reduce carbon emissions in line with international commitments (ex: Paris Agreement), and the technological advancement and economic opportunities offered by the renewable energy sector. Therefore, the project aims to assess the impact of renewable energy production on Turkey's supply-demand balance and carbon emissions, contributing to the shaping of energy policies.
 
 ## 2.4 Preprocessing
 

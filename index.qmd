@@ -2,8 +2,4 @@
 title: "Welcome to My Analytics Lab"
 ---
 
-Hello!! My name is İrem Sultan Hastürk.
-
-This is my personal webpage.
-
-Please stay tuned to follow my works on data analytics, blog posts, and more.
+***My name is İrem Sultan Hastürk. I am a Ph.D. student in the Department of Industrial Engineering at Hacettepe University. I am interested in operations research.***
