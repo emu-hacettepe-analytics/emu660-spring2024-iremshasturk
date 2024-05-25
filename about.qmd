@@ -3,7 +3,7 @@ title: "About Me"
 sidebar: false 
 ---
 
-![](assets/images/iremM.jpg){ width=30%}
+![](assets/images/iremM.jpg){width="30%"}
 
 # Education
 
@@ -21,7 +21,6 @@ sidebar: false
 
 1.  GÜRMEN GROUP, position xx, year xxx
 
-
 ## Projects
 
 1.  TUBİTAK 1001 Project: A Matheuristic Solution Methodology for the Transit Time-Sensitive Liner Ship Scheduling and Container Routing Problem, Intern Researcher, 2021-2022
@@ -32,28 +31,22 @@ sidebar: false
 
 # Publications
 
-1.  18th International Conference on the European Energy Market September 
-13-15, 2022. 
-GENeSYS-MOD Turkey: Quantitative Scenarios for Low Carbon Futures of the Turkish Energy System
+1.  18th International Conference on the European Energy Market September 13-15, 2022. GENeSYS-MOD Turkey: Quantitative Scenarios for Low Carbon Futures of the Turkish Energy System
 
-2.  31st European Conference on Operational Research
-13 July 2021. 
-Integrated Liner Ship Scheduling and Container Routing Problem with Transit Time Sensitive Demand
+2.  31st European Conference on Operational Research 13 July 2021. Integrated Liner Ship Scheduling and Container Routing Problem with Transit Time Sensitive Demand
 
-3.  40th Operational Research and Industrial Engineering National Conference, Istanbul, Turkey.
-5 July 2021
-Integrated Liner Ship Scheduling and Container Routing Problem with Transit Time Sensitive Demand
+3.  40th Operational Research and Industrial Engineering National Conference, Istanbul, Turkey. 5 July 2021 Integrated Liner Ship Scheduling and Container Routing Problem with Transit Time Sensitive Demand
 
 # Conferance Pressentations
 
-1.40th Congress on Operations Research/Industrial Engineering. July 4-7, 2021.
-Integrated Liner Ship Scheduling and Container Routing Problem with Transit Time Sensitive Demand
+1.40th Congress on Operations Research/Industrial Engineering. July 4-7, 2021. Integrated Liner Ship Scheduling and Container Routing Problem with Transit Time Sensitive Demand
 
 # Competencies
 
 R, Quarto, Git, Python, Gams, Matlab, C, HTML CSS, Javascript, Autocad, Minitab,Arena Simulation
 
 # Hobbies
+
 Zumba
 
 <a href="https://drive.google.com/file/d/1iXDQztxWXhrbAckjX6ix3zXzUQDlyDp8/view?usp=sharing" download="İremSultanHastürk_CV.pdf">CV link</a>

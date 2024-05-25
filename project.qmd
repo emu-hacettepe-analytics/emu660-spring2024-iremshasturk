@@ -2,9 +2,12 @@
 title: "The impact of renewable energy production on supply-demand balance and carbon emissions in Turkey"
 ---
 
-Welcome to my project page.
-
 The share of renewable energy production in the total energy supplied and demanded in Turkey changes every year. In this project, first the supply-demand relationship and the effect of renewable energy on this will be examined, and then the effect of renewable energy on carbon emissions will be examined.
+
+```{r}
+
+(C:\Users\irems\Documents\GitHub\emu660-spring2024-iremshasturk\assets\images/sustainable-energy.webp)
+```
 
 # 1. Project Overview and Scope
 
@@ -30,9 +33,11 @@ Renewable Energy Production and Trends in Energy Consumption data is obtained fr
 
 Greenhouse Gas Emissions Statistics from 2015 to 2021 is obtained from <a href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&dil=2">Turkish Statistical Institute</a> .
 
+Monthly Global Greenhouse Gas Emissions Statistics is obtained from <a href="https://edgar.jrc.ec.europa.eu/dataset_ghg80">EDGAR - Emissions Database for Global Atmospheric Research</a> .
+
 ## 2.2 General Information About Data
 
-<a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation">**Real-Time Generation**</a> .: The display of hourly generation values of electricity generation plants on a resource basis.
+<a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation">**Real-Time Generation**</a> : The display of hourly generation values of electricity generation plants on a resource basis.
 
 For example, 2015 real-time hourly energy production data is as follows:
 
@@ -43,9 +48,24 @@ prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-
 head(prod_2015)
 ```
 
+`href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&dil=2">`{=html}The Greenhouse Gas Emissions</a>:
+
+Greenhouse Gas Emissions Statistics by sector, 1990-2021 is as follows:
+
 ```{r}
 ghg_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\ghg.xlsx")
 head(ghg_emissions)
+```
+
+<a href="https://edgar.jrc.ec.europa.eu/dataset_ghg80">CO2 emission time series</a> :
+
+Monthly emission time series (1970-2022) by sector and country are provided in an overview table (.xls) for the three main greenhouse gases
+
+For example, 2015 CO2 emissions data is as follows:
+
+```{r}
+co2_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\co2_emissions.xlsx")
+head(co2_emissions)
 ```
 
 ## 2.3 Reason of Choice
@@ -59,7 +79,12 @@ Due to data complexity, hourly data converted to monthly data. Thus, it has beco
 ```{r}
 
 prod_monthly_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2015.xlsx")
+prod_monthly_2016 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2016.xlsx")
+prod_monthly_2017 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2017.xlsx")
+prod_monthly_2018 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2018.xlsx")
+prod_monthly_2019 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2019.xlsx")
 prod_monthly_2020 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2020.xlsx")
+prod_monthly_2021 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2021.xlsx")
 head(prod_monthly_2015)
 head(prod_monthly_2020)
 
@@ -68,33 +93,91 @@ install.packages("ggplot2")
 library(ggplot2)
 
 
-combined_data <- rbind(prod_monthly_2015, prod_monthly_2020)
-combined_data$Year <- factor(rep(c("2015", "2020"), each = nrow(prod_monthly_2015)))
 
-
-ggplot(combined_data) +
-  geom_line(aes(x = Date, y = Total, color = Year, group=Year))
 
 ```
+
+```{r}
+combined_data_2015_2020 <- rbind(prod_monthly_2015, prod_monthly_2020)
+combined_data_2015_2020$Year <- factor(rep(c("2015", "2020"), each = nrow(prod_monthly_2015)))
+
+
+ggplot(combined_data_2015_2020) +
+  geom_line(aes(x = Date, y = Total, color = Year, group=Year))
+```
+
+# 3. Analysis
+
+First of all, the change in renewable energy production in Turkey between 2015 and 2021 will be examined. In the next stage, the effects of renewable energy production on the supply-demand balance will be analyzed. Finally, its impact on carbon emissions will be analyzed.
+
+## 3.1 Exploratory Data Analysis
+
+### 3.1.1. Change in renewable energy production
 
 In the graph above, it can be seen that the energy production in 2020 is mostly higher than in 2015.
 
 ```{r}
-ggplot(combined_data) +
-  geom_line(aes(x = Date, y = Solar, color = Year, group=Year))
+combined_data_from2015to2020 <- rbind(prod_monthly_2015, prod_monthly_2016,prod_monthly_2017, prod_monthly_2018,prod_monthly_2019, prod_monthly_2020)
+combined_data_from2015to2020$Year <- factor(rep(c("2015", "2016","2017", "2018","2019", "2020"), each = nrow(prod_monthly_2015)))
+
+
+ggplot(combined_data_from2015to2020) +
+  geom_line(aes(x = Date, y = Total, color = Year, group=Year))
+
 ```
 
 The graph above shows that no solar energy was produced in 2015.
 
-# 3. Analysis
+## 3.2 Time Series Analysis
 
-xxxxxx
+```{r}
+ggplot(co2_emissions, aes(x=Year, y=emission, color=month)) + geom_line()
+ggplot(combined_data_from2015to2020, aes(x=Year, y=Total)) + geom_line()
+```
 
-## 3.1 Exploratory Data Analysis
+korelasyon analizi
 
-## 3.2 Trndefinedend Analysis
+```{r}
 
-xxxxxx
+co2_energy <- merge(co2_emissions, combined_data_from2015to2020, by=c("Year", "Month"))
+cor(co2_energy$co2_emissions, co2_energy$combined_data_from2015to2020)
+```
+
+sektör bazlı analiz
+
+```{r}
+install.packages("reshape2")
+install.packages("tidyverse")  
+library(reshape2)
+ghg_melt <- melt(ghg_emissions, id.vars="Sector", variable.name="Year", value.name="GHG_Emission")
+ggplot(ghg_melt, aes(x=Year, y=GHG_Emission, color=Sector)) + geom_point()
+```
+
+```{r}
+install.packages("dplyr")
+install.packages("magrittr")
+library(dplyr)
+library(magrittr)
+
+combined_data_from2015to2020 <- combined_data_from2015to2020 %>% rename(month = Date)
+
+merged_data <- merge(co2_emissions, combined_data_from2015to2020, by = c("Year", "month"))
+
+merged_data$YearMonth <- with(merged_data, paste(Year, month, sep = "-"))
+
+ggplot(merged_data, aes(x = interaction(Year, month))) + 
+  geom_line(aes(y = emissions/1000, color = "CO2 Emission (x1000)", group=1)) + 
+  geom_line(aes(y = Total/1000000, color = "Total (x1M)", group=1)) + 
+  scale_y_continuous(
+    name = "CO2 Emission (x1000)",
+    sec.axis = sec_axis(~ . *1000, name = "Renewable Energy (x1M)")
+  ) +
+ scale_x_discrete(labels = merged_data$YearMonth[seq(1, nrow(merged_data), by = 3)]) +
+   
+  labs(x = "Year-Month", color = "Legend") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
+```
 
 ## 3.3 Model Fitting
 
