@@ -180,8 +180,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">3. Analysis</a>
   <ul class="collapse">
-  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">3.1 Exploratory Data Analysis</a></li>
-  <li><a href="#trndefinedend-analysis" id="toc-trndefinedend-analysis" class="nav-link" data-scroll-target="#trndefinedend-analysis">3.2 Trndefinedend Analysis</a></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">3.1 Exploratory Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#change-in-renewable-energy-production" id="toc-change-in-renewable-energy-production" class="nav-link" data-scroll-target="#change-in-renewable-energy-production">3.1.1. Change in renewable energy production</a></li>
+  </ul></li>
+  <li><a href="#time-series-analysis" id="toc-time-series-analysis" class="nav-link" data-scroll-target="#time-series-analysis">3.2 Time Series Analysis</a>
+  <ul class="collapse">
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><strong>Summary</strong></a></li>
+  </ul></li>
   <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">3.3 Model Fitting</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">3.4 Results</a></li>
   </ul></li>
@@ -216,7 +222,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>The share of renewable energy production in the total energy supplied and demanded in Turkey changes every year. In this project, first the supply-demand relationship and the effect of renewable energy on this will be examined, and then the effect of renewable energy on carbon emissions will be examined.</p>
-<p>![](images/sustainable-energy.webp)</p>
+<p><img src="assets/images/sustainable-energy.webp" class="img-fluid"></p>
 <section id="project-overview-and-scope" class="level1">
 <h1>1. Project Overview and Scope</h1>
 <p>In today’s world, energy is perceived as the cornerstone of economic development, and it needs to be sustainably provided while considering its environmental impacts. In this context, renewable energy sources have the potential to minimize environmental effects by reducing dependency on fossil fuels. For countries like Turkey, with rapidly increasing energy demands and a strategic geographical location, the impact of renewable energy production on supply-demand balance and its effect on carbon emissions are of vital importance.</p>
@@ -235,16 +241,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="data-source">2.1 Data Source</h2>
 <p>Renewable Energy Production and Trends in Energy Consumption data is obtained from <a href="https://seffaflik.epias.com.tr/home">EPİAŞ Transparency Platform</a> .</p>
 <p>Greenhouse Gas Emissions Statistics from 2015 to 2021 is obtained from <a href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&amp;dil=2">Turkish Statistical Institute</a> .</p>
+<p>Monthly Global Greenhouse Gas Emissions Statistics is obtained from <a href="https://edgar.jrc.ec.europa.eu/dataset_ghg80">EDGAR - Emissions Database for Global Atmospheric Research</a> .</p>
 </section>
 <section id="general-information-about-data" class="level2">
 <h2 class="anchored" data-anchor-id="general-information-about-data">2.2 General Information About Data</h2>
-<p><a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation"><strong>Real-Time Generation</strong></a> .: The display of hourly generation values of electricity generation plants on a resource basis.</p>
+<p><a href="https://seffaflik.epias.com.tr/electricity/electricity-generation/ex-post-generation/real-time-generation"><strong>Real-Time Generation</strong></a> : The display of hourly generation values of electricity generation plants on a resource basis.</p>
 <p>For example, 2015 real-time hourly energy production data is as follows:</p>
+<details>
+<summary>
+R Kodunu Göster / Gizle
+</summary>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("readxl")</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>prod_2015 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-2015.xlsx"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prod_2015)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>echo <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("readxl")</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>prod_2015 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-2015.xlsx"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prod_2015)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 19
   Date                Hour   Total `Natural Gas` `Dammed Hydro` Lignite River
@@ -261,16 +273,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #   `Import-Export` &lt;dbl&gt;, `Waste Heat` &lt;dbl&gt;</code></pre>
 </div>
 </div>
+<p>href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&amp;dil=2"&gt;The Greenhouse Gas Emissions:</p>
+<p>Greenhouse Gas Emissions Statistics by sector, 1990-2021 is as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ghg_emissions <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">ghg.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>New names:
-• `` -&gt; `...1`</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ghg_emissions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>echo <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>message <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>warning <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ghg_emissions <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">ghg.xlsx"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ghg_emissions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 8
-  ...1                          `2015` `2016` `2017` `2018` `2019` `2020` `2021`
+  Sector                        `2015` `2016` `2017` `2018` `2019` `2020` `2021`
   &lt;chr&gt;                          &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
 1 Total Emissions                475    501.   529.   523.   509.   524    564. 
 2 Energy                         342    362.   382.   373.   366.   367.   402. 
@@ -279,7 +292,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 Waste                           17.1   16.7   16.3   16.6   16.1   16.3   14.7</code></pre>
 </div>
 </div>
-</section>
+<p><a href="https://edgar.jrc.ec.europa.eu/dataset_ghg80">CO2 emission time series</a> :</p>
+<p>Monthly emission time series (1970-2022) by sector and country are provided in an overview table (.xls) for the three main greenhouse gases</p>
+<p>For example, 2015 CO2 emissions data is as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>echo <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>co2_emissions <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">co2_emissions.xlsx"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(co2_emissions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Year  month    emissions
+  &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;
+1 2015  January     34682.
+2 2015  February    33272.
+3 2015  March       32901.
+4 2015  April       29376.
+5 2015  May         28240.
+6 2015  June        27373.</code></pre>
+</div>
+</div>
+</details></section>
 <section id="reason-of-choice" class="level2">
 <h2 class="anchored" data-anchor-id="reason-of-choice">2.3 Reason of Choice</h2>
 <p>The reasons for choosing this topic include the strategic importance of Turkey’s energy supply-demand balance and environmental sustainability, the potential of renewable energy sources to reduce environmental impacts, the necessity to reduce carbon emissions in line with international commitments (ex: Paris Agreement), and the technological advancement and economic opportunities offered by the renewable energy sector. Therefore, the project aims to assess the impact of renewable energy production on Turkey’s supply-demand balance and carbon emissions, contributing to the shaping of energy policies.</p>
@@ -288,9 +320,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="preprocessing">2.4 Preprocessing</h2>
 <p>Due to data complexity, hourly data converted to monthly data. Thus, it has become easier to examine. Data obtained for 2015 after preprocessing:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>prod_monthly_2015 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-monthly_2015.xlsx"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>prod_monthly_2020 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-monthly_2020.xlsx"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prod_monthly_2015)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>echo <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>prod_monthly_2015 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-monthly_2015.xlsx"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>prod_monthly_2016 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-monthly_2016.xlsx"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>prod_monthly_2017 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-monthly_2017.xlsx"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>prod_monthly_2018 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-monthly_2018.xlsx"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>prod_monthly_2019 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-monthly_2019.xlsx"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>prod_monthly_2020 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-monthly_2020.xlsx"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>prod_monthly_2021 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">irems</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">GitHub</span><span class="sc">\\</span><span class="st">emu660-spring2024-iremshasturk</span><span class="sc">\\</span><span class="st">assets</span><span class="sc">\\</span><span class="st">Real-Time_Generation-monthly_2021.xlsx"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prod_monthly_2015)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 18
   Date    Total `Natural Gas` `Dammed Hydro` Lignite  River `Import Coal`   Wind
@@ -330,33 +368,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>package 'ggplot2' successfully unpacked and MD5 sums checked
 
 The downloaded binary packages are in
-    C:\Users\irems\AppData\Local\Temp\RtmpwvCRbx\downloaded_packages</code></pre>
+    C:\Users\irems\AppData\Local\Temp\RtmpYnLuTy\downloaded_packages</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>combined_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(prod_monthly_2015, prod_monthly_2020)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>combined_data<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"2015"</span>, <span class="st">"2020"</span>), <span class="at">each =</span> <span class="fu">nrow</span>(prod_monthly_2015)))</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data) <span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Total, <span class="at">color =</span> Year, <span class="at">group=</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>combined_data_2015_2020 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(prod_monthly_2015, prod_monthly_2020)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>combined_data_2015_2020<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"2015"</span>, <span class="st">"2020"</span>), <span class="at">each =</span> <span class="fu">nrow</span>(prod_monthly_2015)))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data_2015_2020) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Total, <span class="at">color =</span> Year, <span class="at">group=</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="project_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="project_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="analysis" class="level1">
+<h1>3. Analysis</h1>
+<p>First of all, the change in renewable energy production in Turkey between 2015 and 2021 will be examined. In the next stage, the effects of renewable energy production on the supply-demand balance will be analyzed. Finally, its impact on carbon emissions will be analyzed.</p>
+<section id="exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis">3.1 Exploratory Data Analysis</h2>
+<section id="change-in-renewable-energy-production" class="level3">
+<h3 class="anchored" data-anchor-id="change-in-renewable-energy-production">3.1.1. Change in renewable energy production</h3>
 <p>In the graph above, it can be seen that the energy production in 2020 is mostly higher than in 2015.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data) <span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Solar, <span class="at">color =</span> Year, <span class="at">group=</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>combined_data_from2015to2020 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(prod_monthly_2015, prod_monthly_2016,prod_monthly_2017, prod_monthly_2018,prod_monthly_2019, prod_monthly_2020)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>combined_data_from2015to2020<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"2015"</span>, <span class="st">"2016"</span>,<span class="st">"2017"</span>, <span class="st">"2018"</span>,<span class="st">"2019"</span>, <span class="st">"2020"</span>), <span class="at">each =</span> <span class="fu">nrow</span>(prod_monthly_2015)))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data_from2015to2020) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Total, <span class="at">color =</span> Year, <span class="at">group=</span>Year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="project_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="project_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -364,15 +415,232 @@ The downloaded binary packages are in
 <p>The graph above shows that no solar energy was produced in 2015.</p>
 </section>
 </section>
-<section id="analysis" class="level1">
-<h1>3. Analysis</h1>
-<p>xxxxxx</p>
-<section id="exploratory-data-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="exploratory-data-analysis">3.1 Exploratory Data Analysis</h2>
+<section id="time-series-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="time-series-analysis">3.2 Time Series Analysis</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(co2_emissions, <span class="fu">aes</span>(<span class="at">x=</span>Year, <span class="at">y=</span>emissions, <span class="at">color=</span>month)) <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_line()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data_from2015to2020, <span class="fu">aes</span>(<span class="at">x=</span>Year, <span class="at">y=</span>Total)) <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>korelasyon analizi</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>co2_emissions_to2020 <span class="ot">&lt;-</span> co2_emissions <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">&gt;=</span> <span class="dv">2015</span> <span class="sc">&amp;</span> Year <span class="sc">&lt;=</span> <span class="dv">2020</span>) </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>combined_data_from2015to2020 <span class="ot">&lt;-</span> combined_data_from2015to2020 <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">month =</span> Date)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>co2_energy <span class="ot">&lt;-</span> <span class="fu">merge</span>(co2_emissions_to2020, combined_data_from2015to2020, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"month"</span>))</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(co2_energy<span class="sc">$</span>emissions, co2_energy<span class="sc">$</span>Total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2302382</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(co2_energy, <span class="fu">aes</span>(<span class="at">x =</span> emissions, <span class="at">y =</span> Total)) <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">col =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Scatter Plot of CO2 Emissions vs. Total Renewable Energy"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"CO2 Emissions"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Total Renewable Energy"</span>) <span class="sc">+</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Yıllık veri:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>annual_co2_energy <span class="ot">&lt;-</span> co2_energy <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Annual_CO2_Emission =</span> <span class="fu">sum</span>(emissions),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Annual_Total_Renewable_Energy =</span> <span class="fu">sum</span>(Total)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(annual_co2_energy<span class="sc">$</span>Annual_CO2_Emission, annual_co2_energy<span class="sc">$</span>Annual_Total_Renewable_Energy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9699311</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Korelasyonun anlamlılığını test etme</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>yearly_cor_test <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(annual_co2_energy<span class="sc">$</span>Annual_CO2_Emission, annual_co2_energy<span class="sc">$</span>Annual_Total_Renewable_Energy)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(yearly_cor_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  annual_co2_energy$Annual_CO2_Emission and annual_co2_energy$Annual_Total_Renewable_Energy
+t = 7.9705, df = 4, p-value = 0.001343
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.7440742 0.9968295
+sample estimates:
+      cor 
+0.9699311 </code></pre>
+</div>
+</div>
+<section id="summary" class="level3">
+<h3 class="anchored" data-anchor-id="summary"><strong>Summary</strong></h3>
+<ul>
+<li><p><strong>Correlation:</strong> The correlation coefficient is 0.9699311, indicating a very strong positive linear relationship.</p></li>
+<li><p><strong>Significance:</strong> The p-value is 0.001343, which shows that the relationship is statistically significant.</p></li>
+<li><p><strong>Confidence Interval:</strong> The 95% confidence interval ranges from 0.7440742 to 0.9968295, suggesting that the correlation is indeed strong.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(annual_co2_energy, <span class="fu">aes</span>(<span class="at">x =</span> Annual_CO2_Emission, <span class="at">y =</span> Annual_Total_Renewable_Energy)) <span class="sc">+</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">col =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Scatter Plot of Annual CO2 Emissions vs. Annual Total Renewable Energy"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Annual CO2 Emissions"</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Annual Total Renewable Energy"</span>) <span class="sc">+</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>sektör bazlı analiz</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"reshape2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Installing package into 'C:/Users/irems/AppData/Local/R/win-library/4.3'
+(as 'lib' is unspecified)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>package 'reshape2' successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+    C:\Users\irems\AppData\Local\Temp\RtmpYnLuTy\downloaded_packages</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Installing package into 'C:/Users/irems/AppData/Local/R/win-library/4.3'
+(as 'lib' is unspecified)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>package 'tidyverse' successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+    C:\Users\irems\AppData\Local\Temp\RtmpYnLuTy\downloaded_packages</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>ghg_melt <span class="ot">&lt;-</span> <span class="fu">melt</span>(ghg_emissions, <span class="at">id.vars=</span><span class="st">"Sector"</span>, <span class="at">variable.name=</span><span class="st">"Year"</span>, <span class="at">value.name=</span><span class="st">"GHG_Emission"</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ghg_melt, <span class="fu">aes</span>(<span class="at">x=</span>Year, <span class="at">y=</span>GHG_Emission, <span class="at">color=</span>Sector)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("dplyr")</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("magrittr")</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>merged_data <span class="ot">&lt;-</span> <span class="fu">merge</span>(co2_emissions, combined_data_from2015to2020, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Year"</span>, <span class="st">"month"</span>))</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>merged_data<span class="sc">$</span>YearMonth <span class="ot">&lt;-</span> <span class="fu">with</span>(merged_data, <span class="fu">paste</span>(Year, month, <span class="at">sep =</span> <span class="st">"-"</span>))</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(merged_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">interaction</span>(Year, month))) <span class="sc">+</span> </span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> emissions<span class="sc">/</span><span class="dv">1000</span>, <span class="at">color =</span> <span class="st">"CO2 Emission (x1000)"</span>, <span class="at">group=</span><span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Total<span class="sc">/</span><span class="dv">1000000</span>, <span class="at">color =</span> <span class="st">"Total (x1M)"</span>, <span class="at">group=</span><span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"CO2 Emission (x1000)"</span>,</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>(<span class="sc">~</span> . <span class="sc">*</span><span class="dv">1000</span>, <span class="at">name =</span> <span class="st">"Renewable Energy (x1M)"</span>)</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> merged_data<span class="sc">$</span>YearMonth[<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(merged_data), <span class="at">by =</span> <span class="dv">3</span>)]) <span class="sc">+</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year-Month"</span>, <span class="at">color =</span> <span class="st">"Legend"</span>) <span class="sc">+</span></span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CO2 Emissions and Renewable Energy Production Over Time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ghg_emissions <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(ghg_emissions))</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ghg_emissions) <span class="ot">&lt;-</span> ghg_emissions[<span class="dv">1</span>,]</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>ghg_emissions <span class="ot">&lt;-</span> ghg_emissions[<span class="sc">-</span><span class="dv">1</span>,]</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>ghg_emissions <span class="ot">&lt;-</span> ghg_emissions <span class="sc">%&gt;%</span> <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"Year"</span>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>annual_co2_energy_ghg <span class="ot">&lt;-</span> <span class="fu">merge</span>(annual_co2_energy, ghg_emissions, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"Year"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Korelasyonun anlamlılığını test etme</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>annual_co2_energy_ghg<span class="sc">$</span><span class="st">"Total Emissions"</span> <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(annual_co2_energy_ghg<span class="sc">$</span><span class="st">"Total Emissions"</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>yearly_cor_test <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(annual_co2_energy_ghg<span class="sc">$</span><span class="st">"Total Emissions"</span>, annual_co2_energy<span class="sc">$</span>Annual_Total_Renewable_Energy)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(yearly_cor_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  annual_co2_energy_ghg$"Total Emissions" and annual_co2_energy$Annual_Total_Renewable_Energy
+t = 4.9574, df = 4, p-value = 0.00772
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.4681533 0.9921913
+sample estimates:
+     cor 
+0.927373 </code></pre>
+</div>
+</div>
 </section>
-<section id="trndefinedend-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="trndefinedend-analysis">3.2 Trndefinedend Analysis</h2>
-<p>xxxxxx</p>
 </section>
 <section id="model-fitting" class="level2">
 <h2 class="anchored" data-anchor-id="model-fitting">3.3 Model Fitting</h2>
