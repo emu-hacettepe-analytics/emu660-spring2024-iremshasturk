@@ -144,9 +144,63 @@ ggplot(combined_data_from2015to2020, aes(x=Year, y=Total)) + geom_line()
 korelasyon analizi
 
 ```{r}
+library(dplyr)
+library(magrittr)
 
-co2_energy <- merge(co2_emissions, combined_data_from2015to2020, by=c("Year", "Month"))
-cor(co2_energy$co2_emissions, co2_energy$combined_data_from2015to2020)
+co2_emissions_to2020 <- co2_emissions %>%
+  filter(Year >= 2015 & Year <= 2020) 
+combined_data_from2015to2020 <- combined_data_from2015to2020 %>% rename(month = Date)
+co2_energy <- merge(co2_emissions_to2020, combined_data_from2015to2020, by=c("Year", "month"))
+cor(co2_energy$emissions, co2_energy$Total)
+```
+
+```{r}
+ggplot(co2_energy, aes(x = emissions, y = Total)) +
+  geom_point() +
+  geom_smooth(method = "lm", col = "red") +
+  labs(title = "Scatter Plot of CO2 Emissions vs. Total Renewable Energy",
+       x = "CO2 Emissions",
+       y = "Total Renewable Energy") +
+  theme_minimal()
+```
+
+Yıllık veri:
+
+```{r}
+annual_co2_energy <- co2_energy %>%
+  group_by(Year) %>%
+  summarise(
+    Annual_CO2_Emission = sum(emissions),
+    Annual_Total_Renewable_Energy = sum(Total)
+  )
+```
+
+```{r}
+cor(annual_co2_energy$Annual_CO2_Emission, annual_co2_energy$Annual_Total_Renewable_Energy)
+```
+
+```{r}
+# Korelasyonun anlamlılığını test etme
+yearly_cor_test <- cor.test(annual_co2_energy$Annual_CO2_Emission, annual_co2_energy$Annual_Total_Renewable_Energy)
+print(yearly_cor_test)
+```
+
+### **Summary**
+
+-   **Correlation:** The correlation coefficient is 0.9699311, indicating a very strong positive linear relationship.
+
+-   **Significance:** The p-value is 0.001343, which shows that the relationship is statistically significant.
+
+-   **Confidence Interval:** The 95% confidence interval ranges from 0.7440742 to 0.9968295, suggesting that the correlation is indeed strong.
+
+```{r}
+ggplot(annual_co2_energy, aes(x = Annual_CO2_Emission, y = Annual_Total_Renewable_Energy)) +
+  geom_point() +
+  geom_smooth(method = "lm", col = "red") +
+  labs(title = "Scatter Plot of Annual CO2 Emissions vs. Annual Total Renewable Energy",
+       x = "Annual CO2 Emissions",
+       y = "Annual Total Renewable Energy") +
+  theme_minimal()
 ```
 
 sektör bazlı analiz
@@ -160,12 +214,12 @@ ggplot(ghg_melt, aes(x=Year, y=GHG_Emission, color=Sector)) + geom_point()
 ```
 
 ```{r}
-install.packages("dplyr")
-install.packages("magrittr")
+#install.packages("dplyr")
+#install.packages("magrittr")
 library(dplyr)
 library(magrittr)
 
-combined_data_from2015to2020 <- combined_data_from2015to2020 %>% rename(month = Date)
+
 
 merged_data <- merge(co2_emissions, combined_data_from2015to2020, by = c("Year", "month"))
 
@@ -183,6 +237,23 @@ ggplot(merged_data, aes(x = interaction(Year, month))) +
   labs(x = "Year-Month", color = "Legend") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
+```
+
+```{r}
+ghg_emissions <- as.data.frame(t(ghg_emissions))
+colnames(ghg_emissions) <- ghg_emissions[1,]
+ghg_emissions <- ghg_emissions[-1,]
+library(tibble)
+ghg_emissions <- ghg_emissions %>% rownames_to_column(var = "Year")
+
+annual_co2_energy_ghg <- merge(annual_co2_energy, ghg_emissions, by=c("Year"))
+```
+
+```{r}
+# Korelasyonun anlamlılığını test etme
+annual_co2_energy_ghg$"Total Emissions" <- as.numeric(annual_co2_energy_ghg$"Total Emissions")
+yearly_cor_test <- cor.test(annual_co2_energy_ghg$"Total Emissions", annual_co2_energy$Annual_Total_Renewable_Energy)
+print(yearly_cor_test)
 ```
 
 ## 3.3 Model Fitting
