@@ -4,10 +4,7 @@ title: "The impact of renewable energy production on supply-demand balance and c
 
 The share of renewable energy production in the total energy supplied and demanded in Turkey changes every year. In this project, first the supply-demand relationship and the effect of renewable energy on this will be examined, and then the effect of renewable energy on carbon emissions will be examined.
 
-```{r}
-
-(C:\Users\irems\Documents\GitHub\emu660-spring2024-iremshasturk\assets\images/sustainable-energy.webp)
-```
+![](assets/images/sustainable-energy.webp)
 
 # 1. Project Overview and Scope
 
@@ -41,7 +38,12 @@ Monthly Global Greenhouse Gas Emissions Statistics is obtained from <a href="htt
 
 For example, 2015 real-time hourly energy production data is as follows:
 
+<details>
+
+<summary>R Kodunu Göster / Gizle</summary>
+
 ```{r}
+echo = FALSE
 #install.packages("readxl")
 library(readxl)
 prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-2015.xlsx")
@@ -53,6 +55,9 @@ head(prod_2015)
 Greenhouse Gas Emissions Statistics by sector, 1990-2021 is as follows:
 
 ```{r}
+echo = FALSE
+message = FALSE
+warning = FALSE
 ghg_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\ghg.xlsx")
 head(ghg_emissions)
 ```
@@ -64,6 +69,7 @@ Monthly emission time series (1970-2022) by sector and country are provided in a
 For example, 2015 CO2 emissions data is as follows:
 
 ```{r}
+echo = FALSE
 co2_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\co2_emissions.xlsx")
 head(co2_emissions)
 ```
@@ -77,7 +83,7 @@ The reasons for choosing this topic include the strategic importance of Turkey's
 Due to data complexity, hourly data converted to monthly data. Thus, it has become easier to examine. Data obtained for 2015 after preprocessing:
 
 ```{r}
-
+echo = FALSE
 prod_monthly_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2015.xlsx")
 prod_monthly_2016 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2016.xlsx")
 prod_monthly_2017 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2017.xlsx")
@@ -131,7 +137,7 @@ The graph above shows that no solar energy was produced in 2015.
 ## 3.2 Time Series Analysis
 
 ```{r}
-ggplot(co2_emissions, aes(x=Year, y=emission, color=month)) + geom_line()
+ggplot(co2_emissions, aes(x=Year, y=emissions, color=month)) + geom_line()
 ggplot(combined_data_from2015to2020, aes(x=Year, y=Total)) + geom_line()
 ```
 
