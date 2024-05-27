@@ -273,10 +273,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p><a href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&amp;dil=2">The Greenhouse Gas Emissions</a>:</p>
 <p>Greenhouse Gas Emissions Statistics by sector, 2015-2021 is as follows:</p>
-<details>
-<summary>
-Show the code
-</summary>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -295,14 +291,9 @@ Show the code
 5 Waste                           17.1   16.7   16.3   16.6   16.1   16.3   14.7</code></pre>
 </div>
 </div>
-</details>
 <p><a href="https://edgar.jrc.ec.europa.eu/dataset_ghg80">CO2 emission time series</a> :</p>
 <p>Monthly emission time series (1970-2022) by sector and country are provided in an overview table (.xls) for the three main greenhouse gases</p>
 <p>For example, CO2 emission data for the first 6 months of 2015 is as follows:</p>
-<details>
-<summary>
-Show the code
-</summary>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -321,7 +312,7 @@ Show the code
 6 2015  June        27373.</code></pre>
 </div>
 </div>
-</details></section>
+</section>
 <section id="reason-of-choice" class="level2">
 <h2 class="anchored" data-anchor-id="reason-of-choice">2.3 Reason of Choice</h2>
 <p>The reasons for choosing this topic include the strategic importance of Turkey’s energy supply-demand balance and environmental sustainability, the potential of renewable energy sources to reduce environmental impacts, the necessity to reduce carbon emissions in line with international commitments (ex: Paris Agreement), and the technological advancement and economic opportunities offered by the renewable energy sector. Therefore, the project aims to assess the impact of renewable energy production on Turkey’s supply-demand balance and carbon emissions, contributing to the shaping of energy policies.</p>
@@ -329,10 +320,6 @@ Show the code
 <section id="preprocessing" class="level2">
 <h2 class="anchored" data-anchor-id="preprocessing">2.4 Preprocessing</h2>
 <p>Due to data complexity, hourly data converted to monthly data. Thus, it has become easier to examine. Data obtained for 2015 after preprocessing:</p>
-<details>
-<summary>
-Show the code
-</summary>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -384,11 +371,6 @@ Show the code
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</details>
-<details>
-<summary>
-Show the code
-</summary>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -412,7 +394,7 @@ Show the code
 </div>
 </div>
 </div>
-</details></section>
+</section>
 </section>
 <section id="analysis" class="level1">
 <h1>3. Analysis</h1>
@@ -422,10 +404,6 @@ Show the code
 <section id="change-in-renewable-energy-production" class="level3">
 <h3 class="anchored" data-anchor-id="change-in-renewable-energy-production">3.1.1. Change in renewable energy production</h3>
 <p>In the graph above, it can be seen that the energy production in 2020 is mostly higher than in 2015.</p>
-<details>
-<summary>
-Show the code
-</summary>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -483,7 +461,6 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 </div>
-</details>
 <p>The graph above shows that no solar energy was produced in 2015.</p>
 <div class="cell">
 <details class="code-fold">
@@ -506,7 +483,6 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 </div>
-
 <p>The graph above shows renewable energy production.</p>
 <div class="cell">
 <details class="code-fold">
@@ -533,10 +509,7 @@ Attaching package: 'dplyr'</code></pre>
 </section>
 <section id="time-series-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="time-series-analysis">3.2 Time Series Analysis</h2>
-<details>
-<summary>
-Show the code
-</summary>
+<p>The change in co2 emissions over the years is as follows:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -564,12 +537,8 @@ Show the code
 </div>
 </div>
 </div>
-</details>
-<p>korelasyon analizi</p>
-<details>
-<summary>
-Show the code
-</summary>
+<p>It is seen that emissions increase every year. The changes during the year are similar in most years.</p>
+<p><strong>Correlation analysis:</strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -583,10 +552,7 @@ Show the code
 <pre><code>[1] -0.1057761</code></pre>
 </div>
 </div>
-<details>
-<summary>
-Show the code
-</summary>
+<p>The correlation coefficient is very close to almost zero, indicating a very weak and almost no relationship between co2 emissions and renewable energy generation. In this case, an increase or decrease in one variable does not show any relationship with an increase or decrease in the other variable.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -606,11 +572,7 @@ Show the code
 </div>
 </div>
 </div>
-<p>Yıllık veri:</p>
-<details>
-<summary>
-Show the code
-</summary>
+<p><strong>Annual analysis:</strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -622,10 +584,6 @@ Show the code
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<details>
-<summary>
-Show the code
-</summary>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -635,10 +593,6 @@ Show the code
 <pre><code>[1] 0.3053169</code></pre>
 </div>
 </div>
-<details>
-<summary>
-Show the code
-</summary>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -664,11 +618,7 @@ sample estimates:
 <h3 class="anchored" data-anchor-id="summary"><strong>Summary</strong></h3>
 <ul>
 <li><p><strong>Correlation:</strong> The correlation coefficient is 0.3053169, indicating a weak relationship.</p></li>
-<li><p><strong>Significance:</strong> The p-value is 0.5563, which shows that the relationship is not statistically significant.</p>
-<details>
-<summary>
-<p>Show the code</p>
-</summary></details></li>
+<li><p><strong>Significance:</strong> The p-value is 0.5563, which shows that the relationship is not statistically significant.</p></li>
 </ul>
 <div class="cell">
 <details class="code-fold">
@@ -692,11 +642,7 @@ sample estimates:
 </div>
 </div>
 </div>
-<p>sektör bazlı analiz</p>
-<details>
-<summary>
-Show the code
-</summary>
+<p>sector based analysis:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -714,10 +660,6 @@ Show the code
 </div>
 </div>
 </div>
-<details>
-<summary>
-Show the code
-</summary>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -763,10 +705,6 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 </div>
 </div>
 </div>
-<details>
-<summary>
-Show the code
-</summary>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -779,10 +717,6 @@ Show the code
 <span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>annual_co2_energy_ghg <span class="ot">&lt;-</span> <span class="fu">merge</span>(annual_co2_energy, ghg_emissions, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"Year"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<details>
-<summary>
-Show the code
-</summary>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -805,8 +739,8 @@ sample estimates:
 0.2628774 </code></pre>
 </div>
 </div>
-</details></details></details></details></section>
-</details></details></details></details></details></section>
+</section>
+</section>
 <section id="model-fitting" class="level2">
 <h2 class="anchored" data-anchor-id="model-fitting">3.3 Model Fitting</h2>
 <p>xxxxxx</p>

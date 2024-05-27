@@ -55,27 +55,17 @@ head(prod_2015)
 
 Greenhouse Gas Emissions Statistics by sector, 2015-2021 is as follows:
 
-<details>
-
-<summary>Show the code</summary>
-
 ```{r}
 echo = FALSE
 ghg_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\ghg.xlsx")
 head(ghg_emissions)
 ```
 
-</details>
-
 <a href="https://edgar.jrc.ec.europa.eu/dataset_ghg80">CO2 emission time series</a> :
 
 Monthly emission time series (1970-2022) by sector and country are provided in an overview table (.xls) for the three main greenhouse gases
 
 For example, CO2 emission data for the first 6 months of 2015 is as follows:
-
-<details>
-
-<summary>Show the code</summary>
 
 ```{r}
 
@@ -90,10 +80,6 @@ The reasons for choosing this topic include the strategic importance of Turkey's
 ## 2.4 Preprocessing
 
 Due to data complexity, hourly data converted to monthly data. Thus, it has become easier to examine. Data obtained for 2015 after preprocessing:
-
-<details>
-
-<summary>Show the code</summary>
 
 ```{r}
 
@@ -115,12 +101,6 @@ library(ggplot2)
 
 
 ```
-
-</details>
-
-<details>
-
-<summary>Show the code</summary>
 
 ```{r}
 combined_data_2015_2020 <- rbind(prod_monthly_2015, prod_monthly_2020)
@@ -145,10 +125,6 @@ First of all, the change in renewable energy production in Turkey between 2015 a
 ### 3.1.1. Change in renewable energy production
 
 In the graph above, it can be seen that the energy production in 2020 is mostly higher than in 2015.
-
-<details>
-
-<summary>Show the code</summary>
 
 ```{r}
 combined_data_from2015to2020 <- rbind(prod_monthly_2015, prod_monthly_2016,prod_monthly_2017, prod_monthly_2018,prod_monthly_2019, prod_monthly_2020)
@@ -182,8 +158,6 @@ ggplot(combined_data_from2015to2020) +
 
 ```
 
-</details>
-
 The graph above shows that no solar energy was produced in 2015.
 
 ```{r}
@@ -198,8 +172,6 @@ ggplot(combined_data_from2015to2020) +
    plot.title = element_text(hjust = 0.5)     ) 
 
 ```
-
-</details>
 
 The graph above shows renewable energy production.
 
@@ -218,9 +190,7 @@ ggplot(renewable_data_from2015to2020) +
 
 ## 3.2 Time Series Analysis
 
-<details>
-
-<summary>Show the code</summary>
+The change in co2 emissions over the years is as follows:
 
 ```{r}
 co2_emissions$month <- factor(co2_emissions$month, levels = months_ordered)
@@ -241,13 +211,9 @@ labs(
 
 ```
 
-</details>
+It is seen that emissions increase every year. The changes during the year are similar in most years.
 
-korelasyon analizi
-
-<details>
-
-<summary>Show the code</summary>
+**Correlation analysis:**
 
 ```{r}
 
@@ -259,9 +225,7 @@ co2_energy <- merge(co2_emissions_to2020, renewable_data_from2015to2020, by=c("Y
 cor(co2_energy$emissions, co2_energy$Renewable_Total)
 ```
 
-<details>
-
-<summary>Show the code</summary>
+The correlation coefficient is very close to almost zero, indicating a very weak and almost no relationship between co2 emissions and renewable energy generation. In this case, an increase or decrease in one variable does not show any relationship with an increase or decrease in the other variable.
 
 ```{r}
 ggplot(co2_energy, aes(x = emissions, y = Renewable_Total)) +
@@ -273,11 +237,7 @@ ggplot(co2_energy, aes(x = emissions, y = Renewable_Total)) +
   theme_minimal()
 ```
 
-Yıllık veri:
-
-<details>
-
-<summary>Show the code</summary>
+**Annual analysis:**
 
 ```{r}
 annual_co2_energy <- co2_energy %>%
@@ -288,17 +248,9 @@ annual_co2_energy <- co2_energy %>%
   )
 ```
 
-<details>
-
-<summary>Show the code</summary>
-
 ```{r}
 cor(annual_co2_energy$Annual_CO2_Emission, annual_co2_energy$Annual_Total_Renewable_Energy)
 ```
-
-<details>
-
-<summary>Show the code</summary>
 
 ```{r}
 # Korelasyonun anlamlılığını test etme
@@ -312,10 +264,6 @@ print(yearly_cor_test)
 
 -   **Significance:** The p-value is 0.5563, which shows that the relationship is not statistically significant.
 
-    <details>
-
-    <summary>Show the code</summary>
-
 ```{r}
 ggplot(annual_co2_energy, aes(x = Annual_CO2_Emission, y = Annual_Total_Renewable_Energy)) +
   geom_point() +
@@ -326,11 +274,7 @@ ggplot(annual_co2_energy, aes(x = Annual_CO2_Emission, y = Annual_Total_Renewabl
   theme_minimal()
 ```
 
-sektör bazlı analiz
-
-<details>
-
-<summary>Show the code</summary>
+sector based analysis:
 
 ```{r}
 #install.packages("reshape2")
@@ -339,10 +283,6 @@ library(reshape2)
 ghg_melt <- melt(ghg_emissions, id.vars="Sector", variable.name="Year", value.name="GHG_Emission")
 ggplot(ghg_melt, aes(x=Year, y=GHG_Emission, color=Sector)) + geom_point()
 ```
-
-<details>
-
-<summary>Show the code</summary>
 
 ```{r}
 #install.packages("dplyr")
@@ -376,10 +316,6 @@ ggplot(merged_data, aes(x = interaction(Year, month))) +
   ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
 ```
 
-<details>
-
-<summary>Show the code</summary>
-
 ```{r}
 ghg_emissions <- as.data.frame(t(ghg_emissions))
 colnames(ghg_emissions) <- ghg_emissions[1,]
@@ -389,10 +325,6 @@ ghg_emissions <- ghg_emissions %>% rownames_to_column(var = "Year")
 
 annual_co2_energy_ghg <- merge(annual_co2_energy, ghg_emissions, by=c("Year"))
 ```
-
-<details>
-
-<summary>Show the code</summary>
 
 ```{r}
 # Korelasyonun anlamlılığını test etme
