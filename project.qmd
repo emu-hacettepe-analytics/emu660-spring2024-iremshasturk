@@ -50,6 +50,8 @@ prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-
 head(prod_2015)
 ```
 
+`<a `{=html}
+
 `href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&dil=2">`{=html}The Greenhouse Gas Emissions</a>:
 
 Greenhouse Gas Emissions Statistics by sector, 2015-2021 is as follows:
@@ -105,7 +107,7 @@ head(prod_monthly_2015)
 head(prod_monthly_2020)
 
 chooseCRANmirror(ind=1)
-install.packages("ggplot2") 
+#install.packages("ggplot2") 
 library(ggplot2)
 
 
@@ -145,12 +147,63 @@ combined_data_from2015to2020 <- rbind(prod_monthly_2015, prod_monthly_2016,prod_
 combined_data_from2015to2020$Year <- factor(rep(c("2015", "2016","2017", "2018","2019", "2020"), each = nrow(prod_monthly_2015)))
 
 
+
+
+library(dplyr)
+library(magrittr)
+
+combined_data_from2015to2020 <- combined_data_from2015to2020 %>% rename(month = Date)
+months_ordered <- c("January", "February", "March", "April", "May", "June", 
+                    "July", "August", "September", "October", "November", "December")
+
+combined_data_from2015to2020$month <- factor(combined_data_from2015to2020$month, levels = months_ordered)
+
+renewable_data_from2015to2020 <- combined_data_from2015to2020 %>% select("month", "Year", "Wind", "Solar", "Geothermal", "River", "Dammed Hydro", "Biomass")
+
+renewable_data_from2015to2020 <- renewable_data_from2015to2020 %>%
+  mutate(Renewable_Total = rowSums(select(., c("Wind", "Solar", "Geothermal", "River", "Dammed Hydro", "Biomass"))))
+
+
 ggplot(combined_data_from2015to2020) +
-  geom_line(aes(x = Date, y = Total, color = Year, group=Year))
+  geom_line(aes(x = month, y = Total, color = Year, group=Year))+
+    labs(
+    x = "Month",
+    y = "Total Energy Production",
+    
+  ) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
 
 ```
 
 The graph above shows that no solar energy was produced in 2015.
+
+```{r}
+ggplot(combined_data_from2015to2020) +
+  geom_line(aes(x = month, y = Solar, color = Year, group=Year))+
+  labs(
+    x = "Month",
+    y = "Solar Energy Production",
+    
+  ) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+   plot.title = element_text(hjust = 0.5)     ) 
+
+```
+
+The graph above shows renewable energy production.
+
+```{r}
+ggplot(renewable_data_from2015to2020) +
+  geom_line(aes(x = month, y = Renewable_Total, color = Year, group=Year))+
+  labs(
+    x = "Month",
+    y = "Renewable Energy Production",
+    
+  ) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+   plot.title = element_text(hjust = 0.5)     ) 
+
+```
 
 ## 3.2 Time Series Analysis
 
@@ -159,8 +212,22 @@ The graph above shows that no solar energy was produced in 2015.
 <summary>Show the code</summary>
 
 ```{r}
-ggplot(co2_emissions, aes(x=Year, y=emissions, color=month)) + geom_line()
-ggplot(combined_data_from2015to2020, aes(x=Year, y=Total)) + geom_line()
+co2_emissions$month <- factor(co2_emissions$month, levels = months_ordered)
+
+ggplot(co2_emissions, aes(x=month, y=emissions, color=Year, group=Year)) + geom_line(linewidth = 1)+
+  scale_color_brewer(palette = "Set3") +
+labs(
+    title = "Monthly CO2 Emissions Over Years",
+    x = "Month",
+    y = "CO2 Emissions",
+    color = "Year"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5)
+  )+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
 ```
 
 korelasyon analizi
@@ -170,14 +237,13 @@ korelasyon analizi
 <summary>Show the code</summary>
 
 ```{r}
-library(dplyr)
-library(magrittr)
+
 
 co2_emissions_to2020 <- co2_emissions %>%
   filter(Year >= 2015 & Year <= 2020) 
-combined_data_from2015to2020 <- combined_data_from2015to2020 %>% rename(month = Date)
-co2_energy <- merge(co2_emissions_to2020, combined_data_from2015to2020, by=c("Year", "month"))
-cor(co2_energy$emissions, co2_energy$Total)
+
+co2_energy <- merge(co2_emissions_to2020, renewable_data_from2015to2020, by=c("Year", "month"))
+cor(co2_energy$emissions, co2_energy$Renewable_Total)
 ```
 
 <details>
@@ -185,9 +251,9 @@ cor(co2_energy$emissions, co2_energy$Total)
 <summary>Show the code</summary>
 
 ```{r}
-ggplot(co2_energy, aes(x = emissions, y = Total)) +
+ggplot(co2_energy, aes(x = emissions, y = Renewable_Total)) +
   geom_point() +
-  geom_smooth(method = "lm", col = "red") +
+  
   labs(title = "Scatter Plot of CO2 Emissions vs. Total Renewable Energy",
        x = "CO2 Emissions",
        y = "Total Renewable Energy") +
@@ -205,7 +271,7 @@ annual_co2_energy <- co2_energy %>%
   group_by(Year) %>%
   summarise(
     Annual_CO2_Emission = sum(emissions),
-    Annual_Total_Renewable_Energy = sum(Total)
+    Annual_Total_Renewable_Energy = sum(Renewable_Total)
   )
 ```
 
@@ -229,11 +295,9 @@ print(yearly_cor_test)
 
 ### **Summary**
 
--   **Correlation:** The correlation coefficient is 0.9699311, indicating a very strong positive linear relationship.
+-   **Correlation:** The correlation coefficient is 0.3053169, indicating a weak relationship.
 
--   **Significance:** The p-value is 0.001343, which shows that the relationship is statistically significant.
-
--   **Confidence Interval:** The 95% confidence interval ranges from 0.7440742 to 0.9968295, suggesting that the correlation is indeed strong.
+-   **Significance:** The p-value is 0.5563, which shows that the relationship is not statistically significant.
 
     <details>
 
@@ -256,8 +320,8 @@ sektör bazlı analiz
 <summary>Show the code</summary>
 
 ```{r}
-install.packages("reshape2")
-install.packages("tidyverse")  
+#install.packages("reshape2")
+#install.packages("tidyverse")  
 library(reshape2)
 ghg_melt <- melt(ghg_emissions, id.vars="Sector", variable.name="Year", value.name="GHG_Emission")
 ggplot(ghg_melt, aes(x=Year, y=GHG_Emission, color=Sector)) + geom_point()
@@ -275,16 +339,22 @@ library(magrittr)
 
 
 
-merged_data <- merge(co2_emissions, combined_data_from2015to2020, by = c("Year", "month"))
+merged_data <- merge(co2_emissions, renewable_data_from2015to2020, by = c("Year", "month"))
+
+merged_data$month <- factor(merged_data$month, levels = months_ordered)
 
 merged_data$YearMonth <- with(merged_data, paste(Year, month, sep = "-"))
 
 ggplot(merged_data, aes(x = interaction(Year, month))) + 
   geom_line(aes(y = emissions/1000, color = "CO2 Emission (x1000)", group=1)) + 
-  geom_line(aes(y = Total/1000000, color = "Total (x1M)", group=1)) + 
+  geom_line(aes(y = Renewable_Total/1000000, color = "Total (x1M)", group=1)) + 
   scale_y_continuous(
     name = "CO2 Emission (x1000)",
-    sec.axis = sec_axis(~ . *1000, name = "Renewable Energy (x1M)")
+    sec.axis = sec_axis(~ . , name = "Renewable Energy (x1M)")
+  ) +
+  scale_x_discrete(
+    labels = merged_data$YearMonth[seq(1, nrow(merged_data), by = 3)],
+    breaks = merged_data$YearMonth[seq(1, nrow(merged_data), by = 3)]
   ) +
  scale_x_discrete(labels = merged_data$YearMonth[seq(1, nrow(merged_data), by = 3)]) +
    
