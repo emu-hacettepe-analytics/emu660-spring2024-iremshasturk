@@ -50,9 +50,7 @@ prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-
 head(prod_2015)
 ```
 
-`<a `{=html}
-
-`href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&dil=2">`{=html}The Greenhouse Gas Emissions</a>:
+<a href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&dil=2">The Greenhouse Gas Emissions</a>:
 
 Greenhouse Gas Emissions Statistics by sector, 2015-2021 is as follows:
 
