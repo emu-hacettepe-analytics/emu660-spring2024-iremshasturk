@@ -40,10 +40,10 @@ For example, 2015 real-time hourly energy production data is as follows:
 
 <details>
 
-<summary>R Kodunu Göster / Gizle</summary>
+<summary>Show the code</summary>
 
 ```{r}
-echo = FALSE
+
 #install.packages("readxl")
 library(readxl)
 prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-2015.xlsx")
@@ -52,12 +52,14 @@ head(prod_2015)
 
 `href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&dil=2">`{=html}The Greenhouse Gas Emissions</a>:
 
-Greenhouse Gas Emissions Statistics by sector, 1990-2021 is as follows:
+Greenhouse Gas Emissions Statistics by sector, 2015-2021 is as follows:
+
+<details>
+
+<summary>Show the code</summary>
 
 ```{r}
-echo = FALSE
-message = FALSE
-warning = FALSE
+
 ghg_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\ghg.xlsx")
 head(ghg_emissions)
 ```
@@ -66,10 +68,14 @@ head(ghg_emissions)
 
 Monthly emission time series (1970-2022) by sector and country are provided in an overview table (.xls) for the three main greenhouse gases
 
-For example, 2015 CO2 emissions data is as follows:
+For example, CO2 emission data for the first 6 months of 2015 is as follows:
+
+<details>
+
+<summary>Show the code</summary>
 
 ```{r}
-echo = FALSE
+
 co2_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\co2_emissions.xlsx")
 head(co2_emissions)
 ```
@@ -82,8 +88,12 @@ The reasons for choosing this topic include the strategic importance of Turkey's
 
 Due to data complexity, hourly data converted to monthly data. Thus, it has become easier to examine. Data obtained for 2015 after preprocessing:
 
+<details>
+
+<summary>Show the code</summary>
+
 ```{r}
-echo = FALSE
+
 prod_monthly_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2015.xlsx")
 prod_monthly_2016 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2016.xlsx")
 prod_monthly_2017 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2017.xlsx")
@@ -102,6 +112,10 @@ library(ggplot2)
 
 
 ```
+
+<details>
+
+<summary>Show the code</summary>
 
 ```{r}
 combined_data_2015_2020 <- rbind(prod_monthly_2015, prod_monthly_2020)
@@ -122,6 +136,10 @@ First of all, the change in renewable energy production in Turkey between 2015 a
 
 In the graph above, it can be seen that the energy production in 2020 is mostly higher than in 2015.
 
+<details>
+
+<summary>Show the code</summary>
+
 ```{r}
 combined_data_from2015to2020 <- rbind(prod_monthly_2015, prod_monthly_2016,prod_monthly_2017, prod_monthly_2018,prod_monthly_2019, prod_monthly_2020)
 combined_data_from2015to2020$Year <- factor(rep(c("2015", "2016","2017", "2018","2019", "2020"), each = nrow(prod_monthly_2015)))
@@ -136,12 +154,20 @@ The graph above shows that no solar energy was produced in 2015.
 
 ## 3.2 Time Series Analysis
 
+<details>
+
+<summary>Show the code</summary>
+
 ```{r}
 ggplot(co2_emissions, aes(x=Year, y=emissions, color=month)) + geom_line()
 ggplot(combined_data_from2015to2020, aes(x=Year, y=Total)) + geom_line()
 ```
 
 korelasyon analizi
+
+<details>
+
+<summary>Show the code</summary>
 
 ```{r}
 library(dplyr)
@@ -153,6 +179,10 @@ combined_data_from2015to2020 <- combined_data_from2015to2020 %>% rename(month = 
 co2_energy <- merge(co2_emissions_to2020, combined_data_from2015to2020, by=c("Year", "month"))
 cor(co2_energy$emissions, co2_energy$Total)
 ```
+
+<details>
+
+<summary>Show the code</summary>
 
 ```{r}
 ggplot(co2_energy, aes(x = emissions, y = Total)) +
@@ -166,6 +196,10 @@ ggplot(co2_energy, aes(x = emissions, y = Total)) +
 
 Yıllık veri:
 
+<details>
+
+<summary>Show the code</summary>
+
 ```{r}
 annual_co2_energy <- co2_energy %>%
   group_by(Year) %>%
@@ -175,9 +209,17 @@ annual_co2_energy <- co2_energy %>%
   )
 ```
 
+<details>
+
+<summary>Show the code</summary>
+
 ```{r}
 cor(annual_co2_energy$Annual_CO2_Emission, annual_co2_energy$Annual_Total_Renewable_Energy)
 ```
+
+<details>
+
+<summary>Show the code</summary>
 
 ```{r}
 # Korelasyonun anlamlılığını test etme
@@ -193,6 +235,10 @@ print(yearly_cor_test)
 
 -   **Confidence Interval:** The 95% confidence interval ranges from 0.7440742 to 0.9968295, suggesting that the correlation is indeed strong.
 
+    <details>
+
+    <summary>Show the code</summary>
+
 ```{r}
 ggplot(annual_co2_energy, aes(x = Annual_CO2_Emission, y = Annual_Total_Renewable_Energy)) +
   geom_point() +
@@ -205,6 +251,10 @@ ggplot(annual_co2_energy, aes(x = Annual_CO2_Emission, y = Annual_Total_Renewabl
 
 sektör bazlı analiz
 
+<details>
+
+<summary>Show the code</summary>
+
 ```{r}
 install.packages("reshape2")
 install.packages("tidyverse")  
@@ -212,6 +262,10 @@ library(reshape2)
 ghg_melt <- melt(ghg_emissions, id.vars="Sector", variable.name="Year", value.name="GHG_Emission")
 ggplot(ghg_melt, aes(x=Year, y=GHG_Emission, color=Sector)) + geom_point()
 ```
+
+<details>
+
+<summary>Show the code</summary>
 
 ```{r}
 #install.packages("dplyr")
@@ -239,6 +293,10 @@ ggplot(merged_data, aes(x = interaction(Year, month))) +
   ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
 ```
 
+<details>
+
+<summary>Show the code</summary>
+
 ```{r}
 ghg_emissions <- as.data.frame(t(ghg_emissions))
 colnames(ghg_emissions) <- ghg_emissions[1,]
@@ -248,6 +306,10 @@ ghg_emissions <- ghg_emissions %>% rownames_to_column(var = "Year")
 
 annual_co2_energy_ghg <- merge(annual_co2_energy, ghg_emissions, by=c("Year"))
 ```
+
+<details>
+
+<summary>Show the code</summary>
 
 ```{r}
 # Korelasyonun anlamlılığını test etme
