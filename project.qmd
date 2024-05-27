@@ -43,7 +43,7 @@ For example, 2015 real-time hourly energy production data is as follows:
 <summary>Show the code</summary>
 
 ```{r}
-
+echo = FALSE
 #install.packages("readxl")
 library(readxl)
 prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-2015.xlsx")
@@ -59,7 +59,7 @@ Greenhouse Gas Emissions Statistics by sector, 2015-2021 is as follows:
 <summary>Show the code</summary>
 
 ```{r}
-
+echo = FALSE
 ghg_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\ghg.xlsx")
 head(ghg_emissions)
 ```
