@@ -50,7 +50,7 @@ prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-
 head(prod_2015)
 ```
 
-\</details\>
+</details>
 
 <a href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&dil=2">The Greenhouse Gas Emissions</a>:
 
@@ -66,7 +66,7 @@ ghg_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2
 head(ghg_emissions)
 ```
 
-\</details\>
+</details>
 
 <a href="https://edgar.jrc.ec.europa.eu/dataset_ghg80">CO2 emission time series</a> :
 
@@ -117,7 +117,7 @@ library(ggplot2)
 
 ```
 
-\</details\>
+</details>
 
 <details>
 
@@ -183,7 +183,7 @@ ggplot(combined_data_from2015to2020) +
 
 ```
 
-\</details\>
+</details>
 
 The graph above shows that no solar energy was produced in 2015.
 
@@ -200,7 +200,7 @@ ggplot(combined_data_from2015to2020) +
 
 ```
 
-\</details\>
+</details>
 
 The graph above shows renewable energy production.
 
@@ -242,7 +242,7 @@ labs(
 
 ```
 
-\</details\>
+</details>
 
 korelasyon analizi
 
