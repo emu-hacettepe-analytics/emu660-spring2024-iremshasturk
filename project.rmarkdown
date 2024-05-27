@@ -7,6 +7,7 @@ format:
     code-copy: true
 ---
 
+
 The share of renewable energy production in the total energy supplied and demanded in Turkey changes every year. In this project, first the supply-demand relationship and the effect of renewable energy on this will be examined, and then the effect of renewable energy on carbon emissions will be examined.
 
 ![](assets/images/sustainable-energy.webp)
@@ -43,6 +44,7 @@ Monthly Global Greenhouse Gas Emissions Statistics is obtained from <a href="htt
 
 For example, 2015 real-time hourly energy production data is as follows:
 
+
 ```{r}
 #install.packages("readxl")
 library(readxl)
@@ -50,6 +52,7 @@ prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-
 head(prod_2015)
 
 ```
+
 
 <a href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&dil=2">The Greenhouse Gas Emissions</a>:
 
@@ -59,11 +62,13 @@ Greenhouse Gas Emissions Statistics by sector, 2015-2021 is as follows:
 
 <summary>Show the code</summary>
 
+
 ```{r}
 echo = FALSE
 ghg_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\ghg.xlsx")
 head(ghg_emissions)
 ```
+
 
 </details>
 
@@ -77,11 +82,13 @@ For example, CO2 emission data for the first 6 months of 2015 is as follows:
 
 <summary>Show the code</summary>
 
+
 ```{r}
 
 co2_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\co2_emissions.xlsx")
 head(co2_emissions)
 ```
+
 
 ## 2.3 Reason of Choice
 
@@ -94,6 +101,7 @@ Due to data complexity, hourly data converted to monthly data. Thus, it has beco
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 
@@ -116,11 +124,13 @@ library(ggplot2)
 
 ```
 
+
 </details>
 
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 combined_data_2015_2020 <- rbind(prod_monthly_2015, prod_monthly_2020)
@@ -136,6 +146,7 @@ ggplot(combined_data_2015_2020) +
   theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
 ```
 
+
 # 3. Analysis
 
 First of all, the change in renewable energy production in Turkey between 2015 and 2021 will be examined. In the next stage, the effects of renewable energy production on the supply-demand balance will be analyzed. Finally, its impact on carbon emissions will be analyzed.
@@ -149,6 +160,7 @@ In the graph above, it can be seen that the energy production in 2020 is mostly 
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 combined_data_from2015to2020 <- rbind(prod_monthly_2015, prod_monthly_2016,prod_monthly_2017, prod_monthly_2018,prod_monthly_2019, prod_monthly_2020)
@@ -182,9 +194,11 @@ ggplot(combined_data_from2015to2020) +
 
 ```
 
+
 </details>
 
 The graph above shows that no solar energy was produced in 2015.
+
 
 ```{r}
 ggplot(combined_data_from2015to2020) +
@@ -199,9 +213,11 @@ ggplot(combined_data_from2015to2020) +
 
 ```
 
+
 </details>
 
 The graph above shows renewable energy production.
+
 
 ```{r}
 ggplot(renewable_data_from2015to2020) +
@@ -216,11 +232,13 @@ ggplot(renewable_data_from2015to2020) +
 
 ```
 
+
 ## 3.2 Time Series Analysis
 
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 co2_emissions$month <- factor(co2_emissions$month, levels = months_ordered)
@@ -241,6 +259,7 @@ labs(
 
 ```
 
+
 </details>
 
 korelasyon analizi
@@ -248,6 +267,7 @@ korelasyon analizi
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 
@@ -259,9 +279,11 @@ co2_energy <- merge(co2_emissions_to2020, renewable_data_from2015to2020, by=c("Y
 cor(co2_energy$emissions, co2_energy$Renewable_Total)
 ```
 
+
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 ggplot(co2_energy, aes(x = emissions, y = Renewable_Total)) +
@@ -273,11 +295,13 @@ ggplot(co2_energy, aes(x = emissions, y = Renewable_Total)) +
   theme_minimal()
 ```
 
+
 Yıllık veri:
 
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 annual_co2_energy <- co2_energy %>%
@@ -288,23 +312,28 @@ annual_co2_energy <- co2_energy %>%
   )
 ```
 
+
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 cor(annual_co2_energy$Annual_CO2_Emission, annual_co2_energy$Annual_Total_Renewable_Energy)
 ```
 
+
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 # Korelasyonun anlamlılığını test etme
 yearly_cor_test <- cor.test(annual_co2_energy$Annual_CO2_Emission, annual_co2_energy$Annual_Total_Renewable_Energy)
 print(yearly_cor_test)
 ```
+
 
 ### **Summary**
 
@@ -316,6 +345,7 @@ print(yearly_cor_test)
 
     <summary>Show the code</summary>
 
+
 ```{r}
 ggplot(annual_co2_energy, aes(x = Annual_CO2_Emission, y = Annual_Total_Renewable_Energy)) +
   geom_point() +
@@ -326,11 +356,13 @@ ggplot(annual_co2_energy, aes(x = Annual_CO2_Emission, y = Annual_Total_Renewabl
   theme_minimal()
 ```
 
+
 sektör bazlı analiz
 
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 #install.packages("reshape2")
@@ -340,9 +372,11 @@ ghg_melt <- melt(ghg_emissions, id.vars="Sector", variable.name="Year", value.na
 ggplot(ghg_melt, aes(x=Year, y=GHG_Emission, color=Sector)) + geom_point()
 ```
 
+
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 #install.packages("dplyr")
@@ -376,9 +410,11 @@ ggplot(merged_data, aes(x = interaction(Year, month))) +
   ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
 ```
 
+
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 ghg_emissions <- as.data.frame(t(ghg_emissions))
@@ -390,9 +426,11 @@ ghg_emissions <- ghg_emissions %>% rownames_to_column(var = "Year")
 annual_co2_energy_ghg <- merge(annual_co2_energy, ghg_emissions, by=c("Year"))
 ```
 
+
 <details>
 
 <summary>Show the code</summary>
+
 
 ```{r}
 # Korelasyonun anlamlılığını test etme
@@ -400,6 +438,7 @@ annual_co2_energy_ghg$"Total Emissions" <- as.numeric(annual_co2_energy_ghg$"Tot
 yearly_cor_test <- cor.test(annual_co2_energy_ghg$"Total Emissions", annual_co2_energy$Annual_Total_Renewable_Energy)
 print(yearly_cor_test)
 ```
+
 
 ## 3.3 Model Fitting
 
@@ -412,3 +451,4 @@ xxxxxx
 # 4. Results and Key Takeaways
 
 xxxxxx
+
