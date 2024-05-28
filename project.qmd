@@ -46,6 +46,9 @@ For example, 2015 real-time hourly energy production data is as follows:
 ```{r}
 #install.packages("readxl")
 library(readxl)
+
+library(dplyr)
+library(magrittr)
 prod_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-2015.xlsx")
 head(prod_2015)
 
@@ -56,7 +59,7 @@ head(prod_2015)
 Greenhouse Gas Emissions Statistics by sector, 2015-2021 is as follows:
 
 ```{r}
-echo = FALSE
+
 ghg_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\ghg.xlsx")
 head(ghg_emissions)
 ```
@@ -68,7 +71,6 @@ Monthly emission time series (1970-2022) by sector and country are provided in a
 For example, CO2 emission data for the first 6 months of 2015 is as follows:
 
 ```{r}
-
 co2_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\co2_emissions.xlsx")
 head(co2_emissions)
 ```
@@ -97,12 +99,6 @@ chooseCRANmirror(ind=1)
 #install.packages("ggplot2") 
 library(ggplot2)
 
-
-
-
-```
-
-```{r}
 combined_data_2015_2020 <- rbind(prod_monthly_2015, prod_monthly_2020)
 combined_data_2015_2020$Year <- factor(rep(c("2015", "2020"), each = nrow(prod_monthly_2015)))
 
@@ -110,7 +106,9 @@ months_ordered <- c("January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December")
 
 combined_data_2015_2020$Date <- factor(combined_data_2015_2020$Date, levels = months_ordered)
+```
 
+```{r}
 ggplot(combined_data_2015_2020) +
   geom_line(aes(x = Date, y = Total, color = Year, group=Year)) +
   theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
@@ -131,11 +129,6 @@ combined_data_from2015to2020 <- rbind(prod_monthly_2015, prod_monthly_2016,prod_
 combined_data_from2015to2020$Year <- factor(rep(c("2015", "2016","2017", "2018","2019", "2020"), each = nrow(prod_monthly_2015)))
 
 
-
-
-library(dplyr)
-library(magrittr)
-
 combined_data_from2015to2020 <- combined_data_from2015to2020 %>% rename(month = Date)
 
 
@@ -145,6 +138,12 @@ renewable_data_from2015to2020 <- combined_data_from2015to2020 %>% select("month"
 
 renewable_data_from2015to2020 <- renewable_data_from2015to2020 %>%
   mutate(Renewable_Total = rowSums(select(., c("Wind", "Solar", "Geothermal", "River", "Dammed Hydro", "Biomass"))))
+
+nonrenewable_data_from2015to2020 <- data.frame(
+  Year = combined_data_from2015to2020$Year,
+  month = combined_data_from2015to2020$month,
+  nonrenewable_total = combined_data_from2015to2020$Total - renewable_data_from2015to2020$Renewable_Total
+)
 
 
 ggplot(combined_data_from2015to2020) +
@@ -213,6 +212,36 @@ labs(
 
 It is seen that emissions increase every year. The changes during the year are similar in most years.
 
+**Relation analysis:**
+
+```{r}
+#install.packages("dplyr")
+#install.packages("magrittr")
+library(dplyr)
+library(magrittr)
+
+
+
+merged_data <- merge(co2_emissions, renewable_data_from2015to2020, by = c("Year", "month"))
+
+
+merged_data$month <- factor(merged_data$month, levels = months_ordered)
+
+merged_data$YearMonth <- with(merged_data, paste(Year, month, sep = "-"))
+
+ggplot(merged_data, aes(x = YearMonth)) + 
+  geom_line(aes(y = emissions/1000, color = "CO2 Emission (x1000)", group=1)) + 
+  geom_line(aes(y = Renewable_Total/1000000, color = "Total Renewable Energy (x1M)", group=1)) + 
+  scale_y_continuous(
+    name = "CO2 Emission (x1000)",
+    sec.axis = sec_axis(~ . , name = "Renewable Energy (x1M)")
+  ) +
+   
+  labs(x = "Year-Month", color = "Legend") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
+```
+
 **Correlation analysis:**
 
 ```{r}
@@ -246,11 +275,33 @@ annual_co2_energy <- co2_energy %>%
     Annual_CO2_Emission = sum(emissions),
     Annual_Total_Renewable_Energy = sum(Renewable_Total)
   )
+
+
+
+ggplot(annual_co2_energy, aes(x = Year)) + 
+  geom_line(aes(y = Annual_CO2_Emission/1000, color = "CO2 Emission (x1000)", group=1)) + 
+  geom_line(aes(y = Annual_Total_Renewable_Energy/1000000, color = "Total Renewable Energy (x1M)", group=1)) + 
+  scale_y_continuous(
+    name = "CO2 Emission (x1000)",
+    sec.axis = sec_axis(~ . , name = "Renewable Energy (x1M)")
+  ) +
+   
+  labs(x = "Year", color = "Legend") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
 ```
 
+**Annual correlation analysis:**
+
 ```{r}
+
 cor(annual_co2_energy$Annual_CO2_Emission, annual_co2_energy$Annual_Total_Renewable_Energy)
 ```
+
+\
+The positive correlation coefficient obtained in the annual analysis indicates a **stronger relationship** between the two variables. However, since the coefficient is still not very close to 1, it can be said that the relationship is strong but **not perfectly linear**.
+
+Therefore, the different correlation coefficients obtained by changing the analysis periods show how the relationship between the two variables can change over time. While monthly analysis reflects shorter-term fluctuations and changes, annual analysis evaluates trends and relationships over a longer time horizon.
 
 ```{r}
 # Korelasyonun anlamlılığını test etme
@@ -274,7 +325,7 @@ ggplot(annual_co2_energy, aes(x = Annual_CO2_Emission, y = Annual_Total_Renewabl
   theme_minimal()
 ```
 
-sector based analysis:
+**Sector based analysis:**
 
 ```{r}
 #install.packages("reshape2")
@@ -284,37 +335,7 @@ ghg_melt <- melt(ghg_emissions, id.vars="Sector", variable.name="Year", value.na
 ggplot(ghg_melt, aes(x=Year, y=GHG_Emission, color=Sector)) + geom_point()
 ```
 
-```{r}
-#install.packages("dplyr")
-#install.packages("magrittr")
-library(dplyr)
-library(magrittr)
-
-
-
-merged_data <- merge(co2_emissions, renewable_data_from2015to2020, by = c("Year", "month"))
-
-merged_data$month <- factor(merged_data$month, levels = months_ordered)
-
-merged_data$YearMonth <- with(merged_data, paste(Year, month, sep = "-"))
-
-ggplot(merged_data, aes(x = interaction(Year, month))) + 
-  geom_line(aes(y = emissions/1000, color = "CO2 Emission (x1000)", group=1)) + 
-  geom_line(aes(y = Renewable_Total/1000000, color = "Total (x1M)", group=1)) + 
-  scale_y_continuous(
-    name = "CO2 Emission (x1000)",
-    sec.axis = sec_axis(~ . , name = "Renewable Energy (x1M)")
-  ) +
-  scale_x_discrete(
-    labels = merged_data$YearMonth[seq(1, nrow(merged_data), by = 3)],
-    breaks = merged_data$YearMonth[seq(1, nrow(merged_data), by = 3)]
-  ) +
- scale_x_discrete(labels = merged_data$YearMonth[seq(1, nrow(merged_data), by = 3)]) +
-   
-  labs(x = "Year-Month", color = "Legend") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
-```
+It seems that **energy** largely contributes to emissions.
 
 ```{r}
 ghg_emissions <- as.data.frame(t(ghg_emissions))
@@ -324,9 +345,6 @@ library(tibble)
 ghg_emissions <- ghg_emissions %>% rownames_to_column(var = "Year")
 
 annual_co2_energy_ghg <- merge(annual_co2_energy, ghg_emissions, by=c("Year"))
-```
-
-```{r}
 # Korelasyonun anlamlılığını test etme
 annual_co2_energy_ghg$"Total Emissions" <- as.numeric(annual_co2_energy_ghg$"Total Emissions")
 yearly_cor_test <- cor.test(annual_co2_energy_ghg$"Total Emissions", annual_co2_energy$Annual_Total_Renewable_Energy)
