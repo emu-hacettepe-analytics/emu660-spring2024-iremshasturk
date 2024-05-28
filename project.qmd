@@ -84,7 +84,6 @@ The reasons for choosing this topic include the strategic importance of Turkey's
 Due to data complexity, hourly data converted to monthly data. Thus, it has become easier to examine. Data obtained for 2015 after preprocessing:
 
 ```{r}
-
 prod_monthly_2015 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2015.xlsx")
 prod_monthly_2016 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2016.xlsx")
 prod_monthly_2017 <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\Real-Time_Generation-monthly_2017.xlsx")
@@ -106,12 +105,44 @@ months_ordered <- c("January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December")
 
 combined_data_2015_2020$Date <- factor(combined_data_2015_2020$Date, levels = months_ordered)
+
+combined_data_from2015to2020 <- rbind(prod_monthly_2015, prod_monthly_2016,prod_monthly_2017, prod_monthly_2018,prod_monthly_2019, prod_monthly_2020)
+combined_data_from2015to2020$Year <- factor(rep(c("2015", "2016","2017", "2018","2019", "2020"), each = nrow(prod_monthly_2015)))
+
+
+combined_data_from2015to2020 <- combined_data_from2015to2020 %>% rename(month = Date)
+
+
+combined_data_from2015to2020$month <- factor(combined_data_from2015to2020$month, levels = months_ordered)
+
+renewable_data_from2015to2020 <- combined_data_from2015to2020 %>% select("month", "Year", "Wind", "Solar", "Geothermal", "River", "Dammed Hydro", "Biomass","Total")
+
+renewable_data_from2015to2020 <- renewable_data_from2015to2020 %>%
+  mutate(Renewable_Total = rowSums(select(., c("Wind", "Solar", "Geothermal", "River", "Dammed Hydro", "Biomass"))))
+
+
+
+annual_data_from2015to2020 <- combined_data_from2015to2020 %>%
+  group_by(Year) %>%
+  summarise(across(starts_with("Total"), sum, na.rm = TRUE),
+            across(c("Natural Gas", "Dammed Hydro", "Lignite", "River", 
+                     "Import Coal", "Wind", "Solar", "Fuel Oil", 
+                     "Geothermal", "Asphaltite Coal", "Black Coal", 
+                     "Biomass", "Naphta", "LNG", "Import-Export", 
+                     "Waste Heat"), sum, na.rm = TRUE))
+
+
 ```
 
 ```{r}
 ggplot(combined_data_2015_2020) +
   geom_line(aes(x = Date, y = Total, color = Year, group=Year)) +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+    labs(
+    x = "Month",
+    y = "Total Energy Production",
+    
+  )  
 ```
 
 # 3. Analysis
@@ -125,29 +156,9 @@ First of all, the change in renewable energy production in Turkey between 2015 a
 In the graph above, it can be seen that the energy production in 2020 is mostly higher than in 2015.
 
 ```{r}
-combined_data_from2015to2020 <- rbind(prod_monthly_2015, prod_monthly_2016,prod_monthly_2017, prod_monthly_2018,prod_monthly_2019, prod_monthly_2020)
-combined_data_from2015to2020$Year <- factor(rep(c("2015", "2016","2017", "2018","2019", "2020"), each = nrow(prod_monthly_2015)))
-
-
-combined_data_from2015to2020 <- combined_data_from2015to2020 %>% rename(month = Date)
-
-
-combined_data_from2015to2020$month <- factor(combined_data_from2015to2020$month, levels = months_ordered)
-
-renewable_data_from2015to2020 <- combined_data_from2015to2020 %>% select("month", "Year", "Wind", "Solar", "Geothermal", "River", "Dammed Hydro", "Biomass")
-
-renewable_data_from2015to2020 <- renewable_data_from2015to2020 %>%
-  mutate(Renewable_Total = rowSums(select(., c("Wind", "Solar", "Geothermal", "River", "Dammed Hydro", "Biomass"))))
-
-nonrenewable_data_from2015to2020 <- data.frame(
-  Year = combined_data_from2015to2020$Year,
-  month = combined_data_from2015to2020$month,
-  nonrenewable_total = combined_data_from2015to2020$Total - renewable_data_from2015to2020$Renewable_Total
-)
-
 
 ggplot(combined_data_from2015to2020) +
-  geom_line(aes(x = month, y = Total, color = Year, group=Year))+
+  geom_line(linewidth = 1,aes(x = month, y = Total, color = Year, group=Year))+
     labs(
     x = "Month",
     y = "Total Energy Production",
@@ -227,19 +238,16 @@ merged_data <- merge(co2_emissions, renewable_data_from2015to2020, by = c("Year"
 
 merged_data$month <- factor(merged_data$month, levels = months_ordered)
 
-merged_data$YearMonth <- with(merged_data, paste(Year, month, sep = "-"))
-
-ggplot(merged_data, aes(x = YearMonth)) + 
-  geom_line(aes(y = emissions/1000, color = "CO2 Emission (x1000)", group=1)) + 
-  geom_line(aes(y = Renewable_Total/1000000, color = "Total Renewable Energy (x1M)", group=1)) + 
-  scale_y_continuous(
-    name = "CO2 Emission (x1000)",
-    sec.axis = sec_axis(~ . , name = "Renewable Energy (x1M)")
-  ) +
-   
-  labs(x = "Year-Month", color = "Legend") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
+#ggplot(merged_data, aes(x = YearMonth)) + 
+#  geom_line(aes(y = emissions/1000, color = "CO2 Emission (x1000)", group=1)) + 
+#  geom_line(aes(y = Renewable_Total/1000000, color = "Total Renewable Energy (x1M)", group=1)) + 
+#  scale_y_continuous(
+#    name = "CO2 Emission (x1000)",
+#    sec.axis = sec_axis(~ . , name = "Renewable Energy (x1M)")
+#  ) +
+#  labs(x = "Year-Month", color = "Legend") +
+#  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+#  ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
 ```
 
 **Correlation analysis:**
@@ -277,6 +285,10 @@ annual_co2_energy <- co2_energy %>%
   )
 
 
+ggplot(annual_co2_energy, aes(x = factor(Year), y = Annual_Total_Renewable_Energy)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Annual Total Renewable Energy Production", x = "Year", y = "Total Renewable Energy") +
+  theme_minimal()
 
 ggplot(annual_co2_energy, aes(x = Year)) + 
   geom_line(aes(y = Annual_CO2_Emission/1000, color = "CO2 Emission (x1000)", group=1)) + 
@@ -285,7 +297,6 @@ ggplot(annual_co2_energy, aes(x = Year)) +
     name = "CO2 Emission (x1000)",
     sec.axis = sec_axis(~ . , name = "Renewable Energy (x1M)")
   ) +
-   
   labs(x = "Year", color = "Legend") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   ggtitle("CO2 Emissions and Renewable Energy Production Over Time")
@@ -353,7 +364,18 @@ print(yearly_cor_test)
 
 ## 3.3 Model Fitting
 
-xxxxxx
+```{r}
+annual_per <- renewable_data_from2015to2020 %>%
+  group_by(Year) %>%
+  summarise(
+    Annual_ren_per = sum(Renewable_Total)/sum(Total),
+    Annual_ren = sum(Renewable_Total),
+    Annual_total=sum(Total)
+  )
+ggplot(annual_per) +
+  geom_line(aes(x = Year, y = Annual_ren_per,  group=1)) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
+```
 
 ## 3.4 Results
 
