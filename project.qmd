@@ -27,7 +27,7 @@ This project will utilize various data sources to assess the impact of renewable
 
 3.  **Carbon Emissions Data**: Data on Turkey's carbon emissions will be collected from sources such as greenhouse gas inventories and international reports, and will be analyzed.
 
-4.  **Installed Capacity**
+4.  **Installed Capacity:** Total installed capacity and the breakdown by energy source (e.g., coal, natural gas, hydroelectric, wind, solar, geothermal), will be examined. This data will be sourced from national energy agencies and official reports to understand the growth and changes in the energy infrastructure over time.
 
 ## 2.1 Data Source
 
@@ -76,6 +76,8 @@ For example, CO2 emission data for the first 6 months of 2015 is as follows:
 co2_emissions <- read_excel("C:\\Users\\irems\\Documents\\GitHub\\emu660-spring2024-iremshasturk\\assets\\co2_emissions.xlsx")
 head(co2_emissions)
 ```
+
+<a href="https://www.teias.gov.tr/turkiye-elektrik-uretim-iletim-istatistikleri">Turkey Electricity Generation-Transmission Statistics</a> :
 
 Annual capacity data is provided in an overview table (.xls):
 
@@ -164,7 +166,7 @@ First of all, the change in renewable energy production in Turkey between 2015 a
 
 ## 3.1 Exploratory Data Analysis
 
-### 3.1.1. Change in renewable energy production
+### 3.1.1. Change in energy production
 
 In the graph above, it can be seen that the energy production in 2020 is mostly higher than in 2015.
 
@@ -211,7 +213,7 @@ ggplot(renewable_data_from2015to2020) +
 
 ```
 
-The change in co2 emissions over the years is as follows:
+### 3.1.2. Change in CO2 emissions
 
 ```{r}
 co2_emissions$month <- factor(co2_emissions$month, levels = months_ordered)
@@ -233,7 +235,21 @@ labs(
 
 It is seen that emissions increase every year. The changes during the year are similar in most years.
 
+### 3.1.3. Change in GHG emissions
+
+```{r}
+#install.packages("reshape2")
+#install.packages("tidyverse")  
+library(reshape2)
+ghg_melt <- melt(ghg_emissions, id.vars="Sector", variable.name="Year", value.name="GHG_Emission")
+ggplot(ghg_melt, aes(x=Year, y=GHG_Emission, color=Sector)) + geom_point()
+```
+
+It seems that **energy** largely contributes to emissions.
+
 ## 3.2 **Relation** Analysis
+
+### 3.2.1. CO2 Emissions - Renewable Energy Production (monthly)
 
 ```{r}
 #install.packages("dplyr")
@@ -284,7 +300,7 @@ ggplot(co2_energy, aes(x = emissions, y = Renewable_Total)) +
   theme_minimal()
 ```
 
-**Annual analysis:**
+### 3.2.1. CO2 Emissions - Renewable Energy Production (annual)
 
 ```{r}
 annual_co2_energy <- co2_energy %>%
@@ -297,7 +313,7 @@ annual_co2_energy <- co2_energy %>%
 
 ggplot(annual_co2_energy, aes(x = factor(Year), y = Annual_Total_Renewable_Energy)) +
   geom_bar(stat = "identity") +
-  labs(title = "Annual Total Renewable Energy Production", x = "Year", y = "Total Renewable Energy") +
+  labs(title = "Annual Renewable Energy Production", x = "Year", y = "Total Renewable Energy") +
   theme_minimal()
 
 ```
@@ -353,7 +369,7 @@ ggplot(annual_co2_energy, aes(x = Annual_CO2_Emission, y = Annual_Total_Renewabl
   theme_minimal()
 ```
 
-**Percantage based analysis:**
+### 3.2.3. Renewable Energy Production (ratio)
 
 When looking at the amounts of energy produced, it is observed that the expected impact on emissions has not been achieved. Let's also analyze this based on ratios!
 
@@ -375,7 +391,7 @@ ggplot(annual_data_from2015to2020) +
 
 It is clearly seen that renewable energy production largely comes from hydro.
 
-**Distribution of Türkiye's installed capacity by resources:**
+### 3.2.4. Installed Capacity - Energy Production
 
 ```{r}
 
@@ -416,33 +432,23 @@ grid.arrange(p1, p2, ncol = 2)
 
 ```
 
-**Sector based analysis:**
-
-```{r}
-#install.packages("reshape2")
-#install.packages("tidyverse")  
-library(reshape2)
-ghg_melt <- melt(ghg_emissions, id.vars="Sector", variable.name="Year", value.name="GHG_Emission")
-ggplot(ghg_melt, aes(x=Year, y=GHG_Emission, color=Sector)) + geom_point()
-```
-
-It seems that **energy** largely contributes to emissions.
-
 **Correlation Analysis between Installed Capacities and Energy Production:**
 
-**Total** **Installed Capacities and Energy Production:**
+-   **Total** **Installed Capacities and Energy Production:**
 
 ```{r}
 cor(annual_data_from2015to2020$Total, installed_cap_filtered$Total)
 ```
 
-**Renewable** **Installed Capacities and Energy Production:**
+-   **Renewable** **Installed Capacities and Energy Production:**
 
 ```{r}
 cor(annual_data_from2015to2020$Renewable_Total, installed_cap_filtered$Renewable_Total)
 ```
 
 ## 3.3 Model Fitting
+
+Installed Capacity & Total Energy Production
 
 ```{r}
 #install.packages("prophet")
@@ -476,6 +482,40 @@ forecast <- predict(prophet_model, future)
 # Tahminlerin görselleştirilmesi
 plot(prophet_model, forecast)
 
+```
+
+Renewable Installed Capacity & Renewable Energy Production
+
+```{r}
+library(prophet)
+
+installed_cap$Years <- as.numeric(installed_cap$Years)
+
+annual_data_from2015to2020$Year <- c(2015,2016,2017,2018,2019,2020)
+
+installed_cap_prophet2 <- installed_cap %>%
+  select(Years, Total) %>%
+  filter(Years >= 2015)%>% 
+  rename(ds = Years, y = Total)
+
+# Prophet modelini eğitme
+prophet_model2 <- prophet(installed_cap_prophet2)
+
+# Modeli eğitmek için veri aralığını belirleme
+start_date <- min(installed_cap_prophet2$ds)
+end_date <- max(annual_data_from2015to2020$Year)
+start_date<- as.numeric(start_date)
+
+end_date<- as.numeric(end_date)
+
+future_dates <- seq(start_date, end_date, by = 1)
+future <- data.frame(ds = future_dates)
+
+# Modeli tahminlerle güncelleme
+forecast2 <- predict(prophet_model2, future)
+
+# Tahminlerin görselleştirilmesi
+plot(prophet_model2, forecast2)
 ```
 
 ## 3.4 Results
