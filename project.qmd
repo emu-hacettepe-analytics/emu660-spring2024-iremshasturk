@@ -448,62 +448,31 @@ cor(annual_data_from2015to2020$Renewable_Total, installed_cap_filtered$Renewable
 
 ## 3.3 Model Fitting
 
-Installed Capacity & Total Energy Production
+### 3.3.1. Prophet
+
+**Prophet** is an R package developed by Facebook and used specifically for time series forecasting.
+
+-   Total Energy Production
 
 ```{r}
-#install.packages("prophet")
+
 library(prophet)
 
 installed_cap$Years <- as.numeric(installed_cap$Years)
 
 annual_data_from2015to2020$Year <- c(2015,2016,2017,2018,2019,2020)
 
-installed_cap_prophet <- installed_cap %>%
-  select(Years, Renewable_Total) %>%
-  filter(Years >= 2015)%>% 
-  rename(ds = Years, y = Renewable_Total)
+annual_data_from2015to2020_prophet2 <- annual_data_from2015to2020 %>%
+  select(Year, Total) %>%
+  filter(Year >= 2015)%>% 
+  rename(ds = Year, y = Total)
 
 # Prophet modelini eğitme
-prophet_model <- prophet(installed_cap_prophet)
+prophet_model2 <- prophet(annual_data_from2015to2020_prophet2)
 
 # Modeli eğitmek için veri aralığını belirleme
-start_date <- min(installed_cap_prophet$ds)
-end_date <- max(annual_data_from2015to2020$Year)
-start_date<- as.numeric(start_date)
-
-end_date<- as.numeric(end_date)
-
-future_dates <- seq(start_date, end_date, by = 1)
-future <- data.frame(ds = future_dates)
-
-# Modeli tahminlerle güncelleme
-forecast <- predict(prophet_model, future)
-
-# Tahminlerin görselleştirilmesi
-plot(prophet_model, forecast)
-
-```
-
-Renewable Installed Capacity & Renewable Energy Production
-
-```{r}
-library(prophet)
-
-installed_cap$Years <- as.numeric(installed_cap$Years)
-
-annual_data_from2015to2020$Year <- c(2015,2016,2017,2018,2019,2020)
-
-installed_cap_prophet2 <- installed_cap %>%
-  select(Years, Total) %>%
-  filter(Years >= 2015)%>% 
-  rename(ds = Years, y = Total)
-
-# Prophet modelini eğitme
-prophet_model2 <- prophet(installed_cap_prophet2)
-
-# Modeli eğitmek için veri aralığını belirleme
-start_date <- min(installed_cap_prophet2$ds)
-end_date <- max(annual_data_from2015to2020$Year)
+start_date <- min(annual_data_from2015to2020_prophet2$ds)
+end_date <- 2022
 start_date<- as.numeric(start_date)
 
 end_date<- as.numeric(end_date)
@@ -518,10 +487,188 @@ forecast2 <- predict(prophet_model2, future)
 plot(prophet_model2, forecast2)
 ```
 
+-   Renewable Energy Production
+
+    ```{r}
+    #install.packages("prophet")
+    library(prophet)
+    combined_data <- merge(installed_cap, annual_data_from2015to2020, by.x = "Years", by.y = "Year")
+
+
+    installed_cap$Years <- as.numeric(installed_cap$Years)
+
+    annual_data_from2015to2020$Year <- c(2015,2016,2017,2018,2019,2020)
+
+    annual_data_from2015to2020_prophet <- annual_data_from2015to2020 %>%
+      select(Year, Renewable_Total) %>%
+      filter(Year >= 2015)%>% 
+      rename(ds = Year, y = Renewable_Total)
+
+    # Prophet modelini eğitme
+    prophet_model <- prophet(annual_data_from2015to2020_prophet)
+
+    # Modeli eğitmek için veri aralığını belirleme
+    start_date <- min(annual_data_from2015to2020$Year)
+    end_date <- 2022
+    start_date<- as.numeric(start_date)
+
+    end_date<- as.numeric(end_date)
+
+    future_dates <- seq(start_date, end_date, by = 1)
+    future <- data.frame(ds = future_dates)
+
+    # Modeli tahminlerle güncelleme
+    forecast <- predict(prophet_model, future)
+
+    # Tahminlerin görselleştirilmesi
+    plot(prophet_model, forecast)
+    ```
+
+### 3.3.2. Linear regression model
+
+Since there is a simple linear relationship in the data, a linear regression model may be more appropriate.
+
+-   Installed Capacity & Total Energy Production
+
+```{r}
+installed <- installed_cap %>% 
+  select(Years, Total)%>% 
+  rename(year = Years, total_installed = Total)
+
+energy <- annual_data_from2015to2020 %>% 
+  select(Year, Total)%>% 
+  rename(year = Year, total_energy = Total)
+
+combined_data <- merge(installed, energy)
+
+combined_data
+
+# 2015-2020 yılları verilerini model eğitimi için ayırma
+training_data <- combined_data[combined_data$year <= 2020, ]
+
+# Basit doğrusal regresyon modeli oluşturma
+model <- lm( total_energy   ~total_installed , data = training_data)
+
+# Modelin özetini inceleyelim
+summary(model)
+
+#"Wind", "Solar", "Geothermal", "River", "Dammed Hydro", "Biomass"
+
+future_data <- installed %>% 
+  filter(year > 2020) %>%
+  select(year, total_installed) 
+
+# Tahmin yapma
+predictions <- predict(model, newdata = future_data)
+
+# Tahmin sonuçlarını ekleyelim
+future_data$Total_Energy_Production_Predicted <- predictions
+
+# Tahmin sonuçlarını gösterme
+print(future_data)
+
+all_data <- bind_rows(
+  training_data %>% mutate(Source = "Actual"),
+  future_data %>% mutate(Total_Energy_Production = Total_Energy_Production_Predicted, Source = "Predicted")
+)
+
+all_data[7,'total_energy']=314683960.88
+all_data[8,'total_energy']=311293161.35
+
+# Grafiği oluşturma
+p3 <- ggplot(all_data) +
+  geom_point(aes(x = year, y = total_energy, color = "Actual Energy")) +
+  geom_line(aes(x = year, y = total_energy, color = "Actual Energy")) +
+  geom_point(aes(x = year, y = Total_Energy_Production_Predicted, color = "Predicted Energy")) +
+  geom_line(aes(x = year, y = Total_Energy_Production_Predicted, color = "Predicted Energy")) +
+  
+  labs(title = "Actual and Predicted Energy Production",
+       x = "Year",
+       y = "Total Energy Production (GWh)") +
+  theme_minimal()
+
+p4 <- ggplot(all_data) +
+  geom_point(aes(x = year, y = total_installed, color = "Installed cap")) +
+  geom_line(aes(x = year, y = total_installed, color = "Installed cap"))+
+      labs(title = "Installed Capacities",
+       x = "Year",
+       y = "Installed cap") +
+  theme_minimal()
+
+grid.arrange(p3, p4, ncol = 2)
+
+```
+
+-   Renewable Installed Capacity & Renewable Energy Production
+
+```{r}
+installed <- installed_cap %>% 
+  select(Years, Renewable_Total)%>% 
+  rename(year = Years, renewable_installed = Renewable_Total)
+
+energy <- annual_data_from2015to2020 %>% 
+  select(Year, Renewable_Total)%>% 
+  rename(year = Year, renewable_energy = Renewable_Total)
+
+combined_data <- merge(installed, energy)
+
+combined_data
+
+# 2015-2020 yılları verilerini model eğitimi için ayırma
+training_data <- combined_data[combined_data$year <= 2020, ]
+
+# Basit doğrusal regresyon modeli oluşturma
+model <- lm( renewable_energy   ~renewable_installed , data = training_data)
+
+# Modelin özetini inceleyelim
+summary(model)
+
+#"Wind", "Solar", "Geothermal", "River", "Dammed Hydro", "Biomass"
+
+future_data <- installed %>% 
+  filter(year > 2020) %>%
+  select(year, renewable_installed) 
+
+# Tahmin yapma
+predictions <- predict(model, newdata = future_data)
+
+# Tahmin sonuçlarını ekleyelim
+future_data$Renewable_Predicted <- predictions
+
+# Tahmin sonuçlarını gösterme
+print(future_data)
+
+all_data <- bind_rows(
+  training_data %>% mutate(Source = "Actual"),
+  future_data %>% mutate(Renewable_Energy_Production = Renewable_Predicted, Source = "Predicted")
+)
+
+all_data[7,'renewable_energy']=103928731
+all_data[8,'renewable_energy']=121656648
+
+# Grafiği oluşturma
+p5 <- ggplot(all_data) +
+  geom_point(aes(x = year, y = renewable_energy, color = "Actual Energy")) +
+  geom_line(aes(x = year, y = renewable_energy, color = "Actual Energy")) +
+  geom_point(aes(x = year, y = Renewable_Predicted, color = "Predicted Energy")) +
+  geom_line(aes(x = year, y = Renewable_Predicted, color = "Predicted Energy")) +
+  
+  labs(title = "Actual and Predicted Energy Production",
+       x = "Year",
+       y = "Total Energy Production (GWh)") +
+  theme_minimal()
+
+p6 <- ggplot(all_data) +
+  geom_point(aes(x = year, y = renewable_installed, color = "Installed cap")) +
+  geom_line(aes(x = year, y = renewable_installed, color = "Installed cap"))+
+      labs(title = "Installed Capacities",
+       x = "Year",
+       y = "Installed cap") +
+  theme_minimal()
+
+grid.arrange(p5, p6, ncol = 2)
+```
+
 ## 3.4 Results
 
-xxxxxx
-
 # 4. Results and Key Takeaways
-
-xxxxxx
