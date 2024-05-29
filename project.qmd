@@ -31,7 +31,7 @@ This project will utilize various data sources to assess the impact of renewable
 
 ## 2.1 Data Source
 
-Renewable Energy Production and Trends in Energy Consumption data is obtained from <a href="https://seffaflik.epias.com.tr/home">EPİAŞ Transparency Platform</a> .
+Renewable Energy Production and Trends in Energy Consumption data is obtained from <a href="https://seffaflik.epias.com.tr/home">EPİAŞ Transparency Platform</a> . EPİAŞ is a vital institution for the efficient functioning of Turkey's energy markets, facilitating regulated, transparent, and reliable energy trading.
 
 Greenhouse Gas Emissions Statistics from 2015 to 2021 is obtained from <a href="https://data.tuik.gov.tr/Bulten/Index?p=Greenhouse-Gas-Emissions-Statistics-1990-2021-49672&dil=2">Turkish Statistical Institute</a> .
 
@@ -452,41 +452,6 @@ cor(annual_data_from2015to2020$Renewable_Total, installed_cap_filtered$Renewable
 
 **Prophet** is an R package developed by Facebook and used specifically for time series forecasting.
 
--   Total Energy Production
-
-```{r}
-
-library(prophet)
-
-installed_cap$Years <- as.numeric(installed_cap$Years)
-
-annual_data_from2015to2020$Year <- c(2015,2016,2017,2018,2019,2020)
-
-annual_data_from2015to2020_prophet2 <- annual_data_from2015to2020 %>%
-  select(Year, Total) %>%
-  filter(Year >= 2015)%>% 
-  rename(ds = Year, y = Total)
-
-# Prophet modelini eğitme
-prophet_model2 <- prophet(annual_data_from2015to2020_prophet2)
-
-# Modeli eğitmek için veri aralığını belirleme
-start_date <- min(annual_data_from2015to2020_prophet2$ds)
-end_date <- 2022
-start_date<- as.numeric(start_date)
-
-end_date<- as.numeric(end_date)
-
-future_dates <- seq(start_date, end_date, by = 1)
-future <- data.frame(ds = future_dates)
-
-# Modeli tahminlerle güncelleme
-forecast2 <- predict(prophet_model2, future)
-
-# Tahminlerin görselleştirilmesi
-plot(prophet_model2, forecast2)
-```
-
 -   Renewable Energy Production
 
     ```{r}
@@ -668,7 +633,3 @@ p6 <- ggplot(all_data) +
 
 grid.arrange(p5, p6, ncol = 2)
 ```
-
-## 3.4 Results
-
-# 4. Results and Key Takeaways
